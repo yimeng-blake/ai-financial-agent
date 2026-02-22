@@ -20,15 +20,9 @@ def get_llm(temperature: float = 0.0, model: str = "MiniMax-Text-01"):
         A MiniMaxChat instance ready to use.
     """
     api_key = os.getenv("MINIMAX_API_KEY")
-    group_id = os.getenv("MINIMAX_GROUP_ID")
     if not api_key:
         raise ValueError(
             "MINIMAX_API_KEY not found. "
-            "Set it in your .env file or environment variables."
-        )
-    if not group_id:
-        raise ValueError(
-            "MINIMAX_GROUP_ID not found. "
             "Set it in your .env file or environment variables."
         )
 
@@ -36,7 +30,6 @@ def get_llm(temperature: float = 0.0, model: str = "MiniMax-Text-01"):
         model=model,
         temperature=temperature,
         minimax_api_key=api_key,
-        minimax_group_id=group_id,
         max_tokens=4096,
     )
 
