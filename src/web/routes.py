@@ -59,12 +59,12 @@ _executor = ThreadPoolExecutor(max_workers=4)
 
 # Display metadata for each pipeline node.
 NODE_META = {
-    "fetch_data":        {"label": "Fetching Market Data",  "stage": 1, "total": 6},
-    "fundamentals":      {"label": "Fundamentals Agent",    "stage": 2, "total": 6},
-    "technicals":        {"label": "Technicals Agent",      "stage": 3, "total": 6},
-    "sentiment":         {"label": "Sentiment Agent",       "stage": 4, "total": 6},
-    "risk_manager":      {"label": "Risk Manager",          "stage": 5, "total": 6},
-    "portfolio_manager": {"label": "Portfolio Manager",     "stage": 6, "total": 6},
+    "fetch_data":        {"label": "获取市场数据",  "stage": 1, "total": 6},
+    "fundamentals":      {"label": "基本面分析",    "stage": 2, "total": 6},
+    "technicals":        {"label": "技术面分析",    "stage": 3, "total": 6},
+    "sentiment":         {"label": "情绪分析",      "stage": 4, "total": 6},
+    "risk_manager":      {"label": "风险管理",      "stage": 5, "total": 6},
+    "portfolio_manager": {"label": "投资组合管理",  "stage": 6, "total": 6},
 }
 
 
@@ -96,7 +96,7 @@ def _extract_pdf_text(file_bytes: bytes, filename: str) -> str:
         doc.close()
         full_text = "\n\n".join(pages_text)
         if len(full_text) > MAX_CHARS_PER_DOC:
-            full_text = full_text[:MAX_CHARS_PER_DOC] + "\n\n[... truncated ...]"
+            full_text = full_text[:MAX_CHARS_PER_DOC] + "\n\n[... 已截断 ...]"
         return full_text
     except Exception as exc:
         logger.warning("PDF extraction failed for %s: %s", filename, exc)
@@ -133,7 +133,7 @@ async def start_analysis(request: Request):
     if not tickers_raw:
         return templates.TemplateResponse(
             "index.html",
-            {"request": request, "error": "Please enter at least one ticker symbol."},
+            {"request": request, "error": "请输入至少一个股票代码。"},
         )
 
     try:
@@ -143,7 +143,7 @@ async def start_analysis(request: Request):
     except ValueError:
         return templates.TemplateResponse(
             "index.html",
-            {"request": request, "error": "Cash must be a positive number."},
+            {"request": request, "error": "现金必须为正数。"},
         )
 
     ticker_list = [t.strip().upper() for t in tickers_raw.split(",") if t.strip()]
@@ -339,24 +339,23 @@ def _build_chat_system_prompt(context: dict) -> str:
         )
 
     return (
-        "You are an AI financial analyst assistant. You have just completed a detailed "
-        f"analysis of the following stocks: {', '.join(tickers)}.\n"
-        f"Portfolio cash: ${cash:,.2f}.\n\n"
-        "Below are the complete analysis results. Use this context to answer the user's "
-        "questions accurately and specifically. Reference the actual data when answering. "
-        "If asked about something not covered by the analysis, say so clearly.\n\n"
-        "=== TRADING SIGNALS ===\n"
-        f"{signals_text or 'No signals available.'}\n\n"
-        "=== RISK ASSESSMENTS ===\n"
-        f"{risk_text or 'No risk assessments available.'}\n\n"
-        "=== TRADE DECISIONS ===\n"
-        f"{decisions_text or 'No decisions available.'}\n\n"
-        "Guidelines:\n"
-        "- Be specific and cite the actual numbers from the analysis.\n"
-        "- If the user asks 'what if' scenarios, reason based on the analysis framework "
-        "but clarify you are hypothesizing rather than running a new analysis.\n"
-        "- Be concise but thorough. Use bullet points for clarity when appropriate.\n"
-        "- Do not provide investment advice. Frame everything as analysis output."
+        "你是一个AI金融分析师助手。你刚刚完成了以下股票的详细分析："
+        f"{', '.join(tickers)}。\n"
+        f"投资组合现金：${cash:,.2f}。\n\n"
+        "以下是完整的分析结果。请根据这些数据准确、具体地回答用户的问题。"
+        "回答时引用实际数据。如果用户问的内容不在分析范围内，请明确说明。\n\n"
+        "=== 交易信号 ===\n"
+        f"{signals_text or '暂无交易信号。'}\n\n"
+        "=== 风险评估 ===\n"
+        f"{risk_text or '暂无风险评估。'}\n\n"
+        "=== 交易决策 ===\n"
+        f"{decisions_text or '暂无交易决策。'}\n\n"
+        "回答准则：\n"
+        "- 引用分析中的具体数字，做到精确。\n"
+        "- 如果用户问假设性场景，基于分析框架进行推理，但要说明这是假设而非新的分析。\n"
+        "- 简洁而全面。适当使用要点列表提高清晰度。\n"
+        "- 不提供投资建议。所有内容以分析结果的形式呈现。\n"
+        "- 用中文回答所有问题。"
     )
 
 

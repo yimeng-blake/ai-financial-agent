@@ -1,34 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}AI Financial Agent{% endblock %}
+{% block title %}AI 金融分析助手{% endblock %}
 
 {% block content %}
 <div class="hero">
-    <h1>Multi-Agent Investment Analysis</h1>
+    <h1>多智能体投资分析系统</h1>
     <p class="subtitle">
-        Powered by Claude &mdash; five AI agents analyze fundamentals, technicals,
-        sentiment, risk, and portfolio allocation in real time.
+        由五个AI智能体实时分析基本面、技术面、市场情绪、风险和投资组合配置。
     </p>
 
     <div class="pipeline-preview">
         <div class="pipeline-step">
             <div class="step-icon">&#128200;</div>
-            <span>Market Data</span>
+            <span>市场数据</span>
         </div>
         <div class="pipeline-arrow">&rarr;</div>
         <div class="pipeline-step">
             <div class="step-icon">&#128202;</div>
-            <span>3 Analysts</span>
+            <span>三位分析师</span>
         </div>
         <div class="pipeline-arrow">&rarr;</div>
         <div class="pipeline-step">
             <div class="step-icon">&#9888;</div>
-            <span>Risk</span>
+            <span>风险评估</span>
         </div>
         <div class="pipeline-arrow">&rarr;</div>
         <div class="pipeline-step">
             <div class="step-icon">&#128176;</div>
-            <span>Decisions</span>
+            <span>投资决策</span>
         </div>
     </div>
 </div>
@@ -40,7 +39,7 @@
 
     <form method="POST" action="/analyze" enctype="multipart/form-data" id="analysis-form">
         <div class="form-group">
-            <label for="tickers">Stock Tickers</label>
+            <label for="tickers">股票代码</label>
             <input
                 type="text"
                 id="tickers"
@@ -49,11 +48,11 @@
                 required
                 autocomplete="off"
             >
-            <span class="form-hint">Comma-separated symbols (e.g. AAPL, TSLA, AMZN)</span>
+            <span class="form-hint">用逗号分隔（如 AAPL, TSLA, AMZN）</span>
         </div>
 
         <div class="form-group">
-            <label for="cash">Portfolio Cash ($)</label>
+            <label for="cash">投资组合现金 ($)</label>
             <input
                 type="number"
                 id="cash"
@@ -66,19 +65,19 @@
         </div>
 
         <div class="form-group" id="research-section">
-            <label>Research Documents <span class="optional-label">(optional)</span></label>
+            <label>研究报告 <span class="optional-label">（可选）</span></label>
             <span class="form-hint">
-                Upload sell-side / buy-side research PDFs to enrich fundamental analysis.
-                PDF only, max 20 MB each, up to 3 per ticker.
+                上传卖方/买方研究报告PDF以增强基本面分析。
+                仅支持PDF，每个最大20MB，每只股票最多3份。
             </span>
             <div id="doc-list" class="doc-list"></div>
             <button type="button" id="add-doc-btn" class="btn-add-doc" disabled>
-                + Add Research Document
+                + 添加研究报告
             </button>
         </div>
 
         <button type="submit" class="btn-primary">
-            Run Analysis &rarr;
+            开始分析 &rarr;
         </button>
     </form>
 </div>

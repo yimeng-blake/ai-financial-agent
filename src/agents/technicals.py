@@ -108,13 +108,13 @@ def _compute_macd(prices: List[dict]) -> Optional[dict]:
         prev_diff = macd_line[-2] - signal_line[-2]
         curr_diff = macd_line[-1] - signal_line[-1]
         if prev_diff <= 0 and curr_diff > 0:
-            crossover = "BULLISH crossover (MACD crossing above signal)"
+            crossover = "看涨交叉（MACD上穿信号线）"
         elif prev_diff >= 0 and curr_diff < 0:
-            crossover = "BEARISH crossover (MACD crossing below signal)"
+            crossover = "看跌交叉（MACD下穿信号线）"
         else:
-            crossover = "no recent crossover"
+            crossover = "无近期交叉"
     else:
-        crossover = "insufficient data for crossover detection"
+        crossover = "数据不足，无法检测交叉"
 
     return {
         "macd_line": round(macd_line[-1], 4),
@@ -271,15 +271,15 @@ def _compute_obv(prices: List[dict]) -> Optional[dict]:
 
     # Divergence detection
     if obv_slope > 0 and price_slope < 0:
-        divergence = "BULLISH divergence (OBV rising while price falling — accumulation)"
+        divergence = "看涨背离（OBV上升而价格下跌——吸筹）"
     elif obv_slope < 0 and price_slope > 0:
-        divergence = "BEARISH divergence (OBV falling while price rising — distribution)"
+        divergence = "看跌背离（OBV下降而价格上涨——派发）"
     elif obv_slope > 0 and price_slope > 0:
-        divergence = "Confirmed uptrend (both price and OBV rising)"
+        divergence = "确认上升趋势（价格和OBV同步上涨）"
     elif obv_slope < 0 and price_slope < 0:
-        divergence = "Confirmed downtrend (both price and OBV falling)"
+        divergence = "确认下降趋势（价格和OBV同步下跌）"
     else:
-        divergence = "No clear divergence"
+        divergence = "无明显背离"
 
     return {
         "obv": obv,
@@ -315,11 +315,11 @@ def _analyze_volume(prices: List[dict], window: int = 20) -> Optional[dict]:
     avg_down_vol = sum(down_day_volume) / len(down_day_volume) if down_day_volume else 0
 
     if avg_up_vol > avg_down_vol * 1.3:
-        volume_character = "Accumulation (heavier volume on up days)"
+        volume_character = "吸筹（上涨日成交量更大）"
     elif avg_down_vol > avg_up_vol * 1.3:
-        volume_character = "Distribution (heavier volume on down days)"
+        volume_character = "派发（下跌日成交量更大）"
     else:
-        volume_character = "Balanced (similar volume on up and down days)"
+        volume_character = "均衡（上涨日和下跌日成交量相近）"
 
     return {
         "avg_20d": int(avg_volume),
@@ -476,11 +476,11 @@ def _assess_trend(prices: List[dict]) -> Optional[dict]:
     sma_50 = sum(closes[-50:]) / 50
 
     if ema_9 > ema_21 > sma_50:
-        alignment = "BULLISH alignment (EMA-9 > EMA-21 > SMA-50)"
+        alignment = "看涨排列（EMA-9 > EMA-21 > SMA-50）"
     elif ema_9 < ema_21 < sma_50:
-        alignment = "BEARISH alignment (EMA-9 < EMA-21 < SMA-50)"
+        alignment = "看跌排列（EMA-9 < EMA-21 < SMA-50）"
     else:
-        alignment = "Mixed alignment (no clear trend hierarchy)"
+        alignment = "混合排列（无明确趋势层级）"
 
     # Count up days vs down days (last 20)
     up_days = sum(1 for i in range(-20, 0) if closes[i] > closes[i - 1])
@@ -500,39 +500,38 @@ def _assess_trend(prices: List[dict]) -> Optional[dict]:
 # System prompt
 # ---------------------------------------------------------------------------
 
-SYSTEM_PROMPT = """You are a professional technical analyst. You analyze price action,
-momentum, volatility, volume patterns, and market structure to generate trading signals.
+SYSTEM_PROMPT = """你是一位专业的技术分析师。你通过分析价格走势、动量、波动率、成交量形态和市场结构来生成交易信号。
 
-Your analysis framework (in order of importance):
+你的分析框架（按重要性排序）：
 
-1. TREND STRUCTURE: Moving average alignment, multi-timeframe trend direction.
-   The trend is your friend — always establish the primary trend first.
+1. 趋势结构：均线排列、多时间周期趋势方向。
+   顺势而为——首先确定主要趋势方向。
 
-2. MOMENTUM: RSI (overbought >70 / oversold <30), MACD crossovers,
-   Stochastic Oscillator. Look for momentum confirming or diverging from trend.
+2. 动量：RSI（超买>70 / 超卖<30）、MACD交叉、
+   Stochastic随机指标。观察动量是否确认或背离趋势。
 
-3. VOLATILITY: Bollinger Bands (squeeze = impending breakout, %B for band position),
-   ATR (average daily range — useful for stop placement and risk assessment).
+3. 波动率：Bollinger Bands（缩口=即将突破，%B判断带内位置），
+   ATR（平均真实波幅——用于止损设置和风险评估）。
 
-4. VOLUME: On-Balance Volume divergence is a powerful leading indicator.
-   Accumulation (heavy volume on up days) vs. Distribution (heavy volume on down days).
-   Volume confirms price moves — breakouts on low volume are suspect.
+4. 成交量：OBV背离是有力的领先指标。
+   吸筹（上涨日放量）vs. 派发（下跌日放量）。
+   成交量确认价格走势——低量突破值得怀疑。
 
-5. STRUCTURE: Support/resistance levels, Fibonacci retracement zones.
-   Price tends to respect these levels — look for reactions at key levels.
+5. 结构：支撑/阻力位、Fibonacci回撤区间。
+   价格往往尊重这些关键位——观察在关键位的反应。
 
-SIGNAL QUALITY CHECKLIST:
-- Strong signals require MULTIPLE indicators confirming the same direction
-- Divergences (e.g., price making new highs but RSI declining) are WARNING signs
-- Bollinger Band squeezes often precede significant moves — be alert for direction
-- Volume should CONFIRM the price move (breakout + high volume = conviction)
+信号质量检查清单：
+- 强信号需要多个指标确认同一方向
+- 背离（如价格创新高但RSI下降）是警告信号
+- Bollinger Band缩口往往预示大幅波动——警惕方向选择
+- 成交量应确认价格走势（突破+放量=确认）
 
-CRITICAL RULES:
-- ONLY reference the technical data provided below. Do NOT fabricate indicators.
-- If data is marked as "N/A" or insufficient, acknowledge this limitation.
-- Be precise: cite specific indicator values, levels, and percentages.
-- Do NOT reference news, earnings, or fundamental data — you are a pure technician.
-- State your confidence level honestly — mixed signals should lower confidence."""
+关键规则：
+- 只引用下方提供的技术数据。不要编造指标。
+- 如果数据标注为"N/A"或不足，请承认这一局限。
+- 做到精确：引用具体的指标数值、价位和百分比。
+- 不要引用新闻、财报或基本面数据——你是纯粹的技术分析师。
+- 诚实陈述置信度——混合信号应降低置信度。"""
 
 
 # ---------------------------------------------------------------------------
@@ -549,14 +548,14 @@ def technicals_agent(state: AgentState) -> AgentState:
 
         if not prices:
             signals.append(TradingSignal(
-                agent_name="Technicals Agent",
+                agent_name="技术面分析师",
                 ticker=ticker,
                 signal="neutral",
                 confidence=0.1,
                 reasoning=(
-                    f"No price data available for {ticker}. "
-                    f"Cannot perform technical analysis without historical prices. "
-                    f"Defaulting to neutral with very low confidence."
+                    f"{ticker} 没有可用的价格数据。"
+                    f"缺少历史价格，无法进行技术分析。"
+                    f"默认输出中性信号，置信度极低。"
                 ),
             ))
             continue
@@ -582,43 +581,43 @@ def technicals_agent(state: AgentState) -> AgentState:
         # --- Build the prompt sections ---
 
         # Trend section
-        trend_text = "N/A — insufficient data"
+        trend_text = "N/A — 数据不足"
         if trend:
-            trend_text = f"""5-day: {trend['short_5d']:+.2%} | 20-day: {trend['medium_20d']:+.2%} | 50-day: {trend['long_50d']:+.2%}
-  MA Alignment: {trend['ma_alignment']}
-  Last 20 days: {trend['up_days_20']} up, {trend['down_days_20']} down"""
+            trend_text = f"""5日: {trend['short_5d']:+.2%} | 20日: {trend['medium_20d']:+.2%} | 50日: {trend['long_50d']:+.2%}
+  均线排列: {trend['ma_alignment']}
+  近20日: {trend['up_days_20']} 涨, {trend['down_days_20']} 跌"""
 
         # Moving averages section
         ma_lines = []
         if ema_9:
-            pos = "above" if current_price > ema_9 else "below"
-            ma_lines.append(f"EMA-9:  ${ema_9:.2f} (price {pos})")
+            pos = "上方" if current_price > ema_9 else "下方"
+            ma_lines.append(f"EMA-9:  ${ema_9:.2f}（价格在其{pos}）")
         if ema_21:
-            pos = "above" if current_price > ema_21 else "below"
-            ma_lines.append(f"EMA-21: ${ema_21:.2f} (price {pos})")
+            pos = "上方" if current_price > ema_21 else "下方"
+            ma_lines.append(f"EMA-21: ${ema_21:.2f}（价格在其{pos}）")
         if sma_50:
-            pos = "above" if current_price > sma_50 else "below"
-            ma_lines.append(f"SMA-50: ${sma_50:.2f} (price {pos})")
+            pos = "上方" if current_price > sma_50 else "下方"
+            ma_lines.append(f"SMA-50: ${sma_50:.2f}（价格在其{pos}）")
         if ema_9 and ema_21:
             if ema_9 > ema_21:
-                ma_lines.append("EMA-9/21 status: BULLISH (short-term EMA above long-term)")
+                ma_lines.append("EMA-9/21 状态：看涨（短期EMA在长期上方）")
             else:
-                ma_lines.append("EMA-9/21 status: BEARISH (short-term EMA below long-term)")
+                ma_lines.append("EMA-9/21 状态：看跌（短期EMA在长期下方）")
         ma_text = "\n  ".join(ma_lines) if ma_lines else "N/A"
 
         # RSI section
         rsi_text = "N/A"
         if rsi is not None:
             if rsi > 70:
-                zone = "OVERBOUGHT"
+                zone = "超买"
             elif rsi > 60:
-                zone = "bullish zone"
+                zone = "偏多区域"
             elif rsi < 30:
-                zone = "OVERSOLD"
+                zone = "超卖"
             elif rsi < 40:
-                zone = "bearish zone"
+                zone = "偏空区域"
             else:
-                zone = "neutral zone"
+                zone = "中性区域"
             rsi_text = f"{rsi:.1f} ({zone})"
 
         # MACD section
@@ -635,17 +634,17 @@ def technicals_agent(state: AgentState) -> AgentState:
         if stochastic:
             k, d = stochastic["pct_k"], stochastic["pct_d"]
             if k > 80:
-                zone = "OVERBOUGHT"
+                zone = "超买"
             elif k < 20:
-                zone = "OVERSOLD"
+                zone = "超卖"
             else:
-                zone = "neutral"
+                zone = "中性"
             stoch_text = f"%K: {k:.1f}, %D: {d:.1f} ({zone})"
 
         # Bollinger Bands section
         bb_text = "N/A"
         if bollinger:
-            squeeze_tag = " ** SQUEEZE DETECTED — expect volatility expansion **" if bollinger["squeeze"] else ""
+            squeeze_tag = " ** 检测到布林带挤压——预期波动率扩张 **" if bollinger["squeeze"] else ""
             bb_text = (
                 f"Upper: ${bollinger['upper']}, Middle: ${bollinger['middle']}, Lower: ${bollinger['lower']}\n  "
                 f"Bandwidth: {bollinger['bandwidth']:.4f}, %B: {bollinger['pct_b']:.2f} "
@@ -700,14 +699,14 @@ def technicals_agent(state: AgentState) -> AgentState:
 
         prompt = f"""{SYSTEM_PROMPT}
 
-Technical data for {ticker} ({len(prices)} trading days, {date_range}):
+{ticker} 的技术数据（{len(prices)} 个交易日，{date_range}）：
 
-PRICE: ${current_price:.2f}
+当前价格: ${current_price:.2f}
 
-1. TREND:
+1. 趋势:
   {trend_text}
 
-2. MOVING AVERAGES:
+2. 均线:
   {ma_text}
 
 3. RSI (14, Wilder): {rsi_text}
@@ -723,25 +722,25 @@ PRICE: ${current_price:.2f}
 
 7. ATR (14): {atr_text}
 
-8. VOLUME:
+8. 成交量:
   {vol_text}
 
-9. ON-BALANCE VOLUME:
+9. OBV（能量潮）:
   {obv_text}
 
-10. SUPPORT / RESISTANCE:
+10. 支撑 / 阻力:
   {sr_text}
 
-11. FIBONACCI RETRACEMENT:
+11. FIBONACCI 回撤:
   {fib_text}
 
-Produce your analysis as a TradingSignal. Synthesize ALL of the above indicators —
-look for confirmations and divergences across trend, momentum, volatility, and volume.
-Cite specific values in your reasoning.
+请输出 TradingSignal。综合以上所有指标——
+寻找趋势、动量、波动率和成交量之间的确认和背离信号。
+在推理中引用具体数值。请用中文撰写分析。
 """
 
         signal = call_llm(prompt, response_model=TradingSignal)
-        signal.agent_name = "Technicals Agent"
+        signal.agent_name = "技术面分析师"
         signal.ticker = ticker
         signals.append(signal)
 

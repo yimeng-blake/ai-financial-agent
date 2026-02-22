@@ -20,6 +20,7 @@ jinja2 = "^3.1"
 sse-starlette = "^2.0"
 python-multipart = "^0.0.20"
 pymupdf = "^1.24"
+langchain-community = "^0.3"
 
 [build-system]
 requires = ["poetry-core"]

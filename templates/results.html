@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Analysis — {{ tickers }}{% endblock %}
+{% block title %}分析报告 — {{ tickers }}{% endblock %}
 
 {% block content %}
 <!-- Hidden config for JavaScript -->
@@ -9,51 +9,51 @@
 <!-- Header -->
 <div class="results-header">
     <div>
-        <h1>Analysis Report</h1>
+        <h1>分析报告</h1>
         <p class="subtitle">
             {% for t in ticker_list %}
             <span class="ticker-badge">{{ t }}</span>
             {% endfor %}
-            &nbsp;&middot;&nbsp; Portfolio: <strong>${{ "{:,.0f}".format(cash) }}</strong>
+            &nbsp;&middot;&nbsp; 投资组合: <strong>${{ "{:,.0f}".format(cash) }}</strong>
         </p>
     </div>
-    <a href="/" class="btn-secondary">New Analysis</a>
+    <a href="/" class="btn-secondary">新建分析</a>
 </div>
 
 <!-- Pipeline Progress -->
 <div class="progress-section">
     <div class="progress-pipeline-track">
-        <div class="progress-stage" id="stage-1" data-label="Market Data">
+        <div class="progress-stage" id="stage-1" data-label="市场数据">
             <div class="stage-circle">1</div>
-            <span class="stage-label">Market Data</span>
+            <span class="stage-label">市场数据</span>
         </div>
         <div class="progress-line"></div>
-        <div class="progress-stage" id="stage-2" data-label="Fundamentals">
+        <div class="progress-stage" id="stage-2" data-label="基本面">
             <div class="stage-circle">2</div>
-            <span class="stage-label">Fundamentals</span>
+            <span class="stage-label">基本面</span>
         </div>
         <div class="progress-line"></div>
-        <div class="progress-stage" id="stage-3" data-label="Technicals">
+        <div class="progress-stage" id="stage-3" data-label="技术面">
             <div class="stage-circle">3</div>
-            <span class="stage-label">Technicals</span>
+            <span class="stage-label">技术面</span>
         </div>
         <div class="progress-line"></div>
-        <div class="progress-stage" id="stage-4" data-label="Sentiment">
+        <div class="progress-stage" id="stage-4" data-label="情绪">
             <div class="stage-circle">4</div>
-            <span class="stage-label">Sentiment</span>
+            <span class="stage-label">情绪</span>
         </div>
         <div class="progress-line"></div>
-        <div class="progress-stage" id="stage-5" data-label="Risk Manager">
+        <div class="progress-stage" id="stage-5" data-label="风险管理">
             <div class="stage-circle">5</div>
-            <span class="stage-label">Risk</span>
+            <span class="stage-label">风险</span>
         </div>
         <div class="progress-line"></div>
-        <div class="progress-stage" id="stage-6" data-label="Portfolio Manager">
+        <div class="progress-stage" id="stage-6" data-label="投资组合">
             <div class="stage-circle">6</div>
-            <span class="stage-label">Portfolio</span>
+            <span class="stage-label">组合</span>
         </div>
     </div>
-    <p class="progress-status" id="progress-status">Connecting...</p>
+    <p class="progress-status" id="progress-status">连接中...</p>
 </div>
 
 <!-- Error container -->
@@ -61,16 +61,16 @@
 
 <!-- Agent Signals -->
 <section id="signals-section" class="results-section hidden">
-    <h2>Agent Trading Signals</h2>
+    <h2>智能体交易信号</h2>
     <div class="table-wrap">
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Ticker</th>
-                    <th>Agent</th>
-                    <th>Signal</th>
-                    <th>Confidence</th>
-                    <th>Reasoning</th>
+                    <th>股票</th>
+                    <th>智能体</th>
+                    <th>信号</th>
+                    <th>置信度</th>
+                    <th>分析逻辑</th>
                 </tr>
             </thead>
             <tbody id="signals-body"></tbody>
@@ -80,22 +80,22 @@
 
 <!-- Technical Charts -->
 <section id="charts-section" class="results-section hidden">
-    <h2>Price Charts &amp; Technical Indicators</h2>
+    <h2>价格走势与技术指标</h2>
     <div id="charts-grid" class="charts-grid"></div>
 </section>
 
 <!-- Risk Assessments -->
 <section id="risk-section" class="results-section hidden">
-    <h2>Risk Assessments</h2>
+    <h2>风险评估</h2>
     <div class="table-wrap">
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Ticker</th>
-                    <th>Risk Score</th>
-                    <th>Max Position</th>
-                    <th>Risk Factors</th>
-                    <th>Reasoning</th>
+                    <th>股票</th>
+                    <th>风险分数</th>
+                    <th>最大仓位</th>
+                    <th>风险因素</th>
+                    <th>分析逻辑</th>
                 </tr>
             </thead>
             <tbody id="risk-body"></tbody>
@@ -105,25 +105,25 @@
 
 <!-- Trade Decisions -->
 <section id="decisions-section" class="results-section hidden">
-    <h2>Portfolio Decisions</h2>
+    <h2>投资组合决策</h2>
     <div class="decisions-cards" id="decisions-cards"></div>
 </section>
 
 <!-- Complete banner -->
 <div id="complete-banner" class="complete-banner hidden">
     <span class="complete-icon">&#10003;</span>
-    Analysis Complete
+    分析完成
 </div>
 
 <!-- Chat Panel (revealed after analysis completes) -->
 <section id="chat-section" class="results-section hidden">
-    <h2>Ask About This Analysis</h2>
+    <h2>关于本次分析的问答</h2>
     <div id="chat-messages" class="chat-messages">
         <div class="chat-message assistant-message fade-in">
             <div class="chat-message-content">
-                Analysis complete. Ask me anything about the results &mdash;
-                for example, &ldquo;Why is NVDA rated bearish?&rdquo; or
-                &ldquo;Compare the risk profiles.&rdquo;
+                分析已完成。你可以问我任何关于分析结果的问题 &mdash;
+                例如，&ldquo;NVDA为什么被评为看跌？&rdquo; 或
+                &ldquo;比较一下各股票的风险情况。&rdquo;
             </div>
         </div>
     </div>
@@ -132,12 +132,12 @@
             type="text"
             id="chat-input"
             class="chat-input"
-            placeholder="Ask about the analysis..."
+            placeholder="输入你的问题..."
             autocomplete="off"
             required
         >
         <button type="submit" id="chat-send-btn" class="btn-primary chat-send-btn">
-            Send
+            发送
         </button>
     </form>
 </section>

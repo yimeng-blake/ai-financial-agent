@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.querySelectorAll(".doc-ticker-select").forEach((select) => {
                 const currentVal = select.value;
-                select.innerHTML = '<option value="">Select ticker...</option>';
+                select.innerHTML = '<option value="">选择股票...</option>';
                 tickers.forEach((t) => {
                     const opt = document.createElement("option");
                     opt.value = t;
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             select.name = "doc_tickers";
             select.className = "doc-ticker-select";
             select.required = true;
-            select.innerHTML = '<option value="">Ticker...</option>';
+            select.innerHTML = '<option value="">选择代码...</option>';
             tickers.forEach((t) => {
                 const opt = document.createElement("option");
                 opt.value = t;
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fileLabel.className = "doc-file-label";
             const fileName = document.createElement("span");
             fileName.className = "doc-file-name";
-            fileName.textContent = "Choose PDF...";
+            fileName.textContent = "选择PDF文件...";
             const fileInput = document.createElement("input");
             fileInput.type = "file";
             fileInput.name = "doc_files";
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fileInput.addEventListener("change", () => {
                 fileName.textContent = fileInput.files[0]
                     ? fileInput.files[0].name
-                    : "Choose PDF...";
+                    : "选择PDF文件...";
             });
             fileLabel.appendChild(fileName);
             fileLabel.appendChild(fileInput);
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     source.addEventListener("start", (e) => {
         const data = JSON.parse(e.data);
-        statusEl.textContent = `Analyzing ${data.tickers.join(", ")}...`;
+        statusEl.textContent = `正在分析 ${data.tickers.join(", ")}...`;
         setStageActive(1);
         // Store for chat context
         analysisContext.tickers = data.tickers;
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Update progress
         markStageComplete(stage);
         completedStages.add(stage);
-        statusEl.textContent = `${data.label} complete`;
+        statusEl.textContent = `${data.label} 完成`;
 
         // Activate the next pending stage
         const nextStage = findNextPending();
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
             analysisContext.decisions.push(...data.decisions);
         }
         if (data.market_data_loaded) {
-            statusEl.textContent = `Market data loaded for ${data.tickers_loaded.join(", ")}`;
+            statusEl.textContent = `已加载 ${data.tickers_loaded.join(", ")} 的市场数据`;
         }
         if (data.price_data) {
             analysisContext.price_data = data.price_data;
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     source.addEventListener("complete", () => {
         source.close();
-        statusEl.textContent = "All stages complete";
+        statusEl.textContent = "所有阶段已完成";
         bannerEl.classList.remove("hidden");
         for (let i = 1; i <= 6; i++) markStageComplete(i);
         // Show chat panel
@@ -191,12 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.data) {
             try {
                 const data = JSON.parse(e.data);
-                showError(data.error || "An unexpected error occurred.");
+                showError(data.error || "发生未知错误。");
             } catch {
-                showError("Connection lost. Please try again.");
+                showError("连接中断，请重试。");
             }
         } else {
-            showError("Connection lost. Please try again.");
+            showError("连接中断，请重试。");
         }
     });
 
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function showError(msg) {
         errorEl.textContent = msg;
         errorEl.classList.remove("hidden");
-        statusEl.textContent = "Error occurred";
+        statusEl.textContent = "发生错误";
     }
 
     // -----------------------------------------------------------------------
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td class="reasoning-cell">
                     <div class="reasoning-preview">${esc(preview)}</div>
                     <details>
-                        <summary>Show full reasoning</summary>
+                        <summary>查看完整分析</summary>
                         <div class="reasoning-full">${esc(s.reasoning)}</div>
                     </details>
                 </td>
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td class="reasoning-cell">
                     <div class="reasoning-preview">${esc(preview)}</div>
                     <details>
-                        <summary>Show full reasoning</summary>
+                        <summary>查看完整分析</summary>
                         <div class="reasoning-full">${esc(r.reasoning)}</div>
                     </details>
                 </td>
@@ -361,8 +361,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="action-badge ${actionClass}">${esc(d.action)}</span>
                 </div>
                 <div class="decision-meta">
-                    <div><span>Quantity </span><strong>${d.quantity} shares</strong></div>
-                    <div><span>Confidence </span><strong>${pct}%</strong></div>
+                    <div><span>数量 </span><strong>${d.quantity} 股</strong></div>
+                    <div><span>置信度 </span><strong>${pct}%</strong></div>
                 </div>
                 <div class="decision-reasoning">${esc(d.reasoning)}</div>
             `;
@@ -431,7 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="ticker-badge">${esc(ticker)}</span>
                     <span class="chart-price">$${latest.close.toFixed(2)}</span>
                     <span class="chart-change ${changeClass}">${changeSign}${changePct}%</span>
-                    <span class="chart-period">${prices.length} days</span>
+                    <span class="chart-period">${prices.length} 天</span>
                 </div>
                 <div class="chart-legend">
                     <span class="legend-item"><span class="legend-swatch" style="background:#3b82f6"></span>EMA-9</span>
@@ -701,7 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 messagesEl.scrollTop = messagesEl.scrollHeight;
                             } else if (eventType === "error") {
                                 contentDiv.textContent =
-                                    "Sorry, an error occurred. Please try again.";
+                                    "抱歉，发生了错误，请重试。";
                             }
                         } catch {
                             // ignore malformed JSON
@@ -714,7 +714,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 conversationHistory.push({ role: "assistant", content: fullResponse });
             }
         } catch {
-            contentDiv.textContent = "Connection error. Please try again.";
+            contentDiv.textContent = "连接错误，请重试。";
         } finally {
             sendBtn.disabled   = false;
             chatInput.disabled = false;

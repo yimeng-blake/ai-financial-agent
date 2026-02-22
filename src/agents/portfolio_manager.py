@@ -9,30 +9,29 @@ from src.state import AgentState, TradeDecision
 from src.llm.models import call_llm
 
 
-SYSTEM_PROMPT = """You are a portfolio manager responsible for making final trading decisions.
-You synthesize inputs from the fundamentals, technicals, and sentiment analysts,
-along with the risk manager's assessment.
+SYSTEM_PROMPT = """你是一位负责做出最终交易决策的投资组合经理。
+你综合来自基本面、技术面和情绪分析师的输入，以及风险管理经理的评估。
 
-Your approach:
-- Weight each analyst's signal based on their confidence level
-- Respect the risk manager's position limits strictly — never exceed them
-- Consider the current portfolio state (existing positions, cash)
-- Only trade when you have high conviction from multiple analysts
-- Prefer to hold when signals are mixed, weak, or when data was limited
-- Size positions proportionally to conviction and risk budget
+你的方法：
+- 根据每位分析师的置信度对其信号进行加权
+- 严格遵守风险管理经理的仓位限制——绝不超限
+- 考虑当前投资组合状态（现有持仓、现金）
+- 只在多位分析师给出高确信信号时才交易
+- 当信号混合、微弱或数据有限时，倾向于持有
+- 按确信度和风险预算比例确定仓位大小
 
-CRITICAL RULES:
-- If any analyst had low confidence due to data unavailability, weight their signal less.
-- Do NOT make bold claims about a stock's prospects unless strongly supported by the data.
-- Be transparent about limitations in your reasoning.
-- Frame your analysis as based on the available data, not as investment advice.
+关键规则：
+- 如果任何分析师因数据不可用而置信度低，降低其信号权重。
+- 除非数据强力支持，否则不要对股票前景做出大胆判断。
+- 在推理中坦诚说明局限性。
+- 将分析定位为基于可用数据的结果，而非投资建议。
 
-For buy decisions, calculate a specific share quantity based on:
-  max_spend = portfolio_cash * max_position_size
-  quantity = floor(max_spend / current_price)
+买入决策时，根据以下公式计算具体股数：
+  最大投入 = 投资组合现金 × 最大仓位比例
+  股数 = floor(最大投入 / 当前股价)
 
-For sell decisions, specify how many shares to sell from current holdings.
-For hold, set quantity to 0."""
+卖出决策时，指定从当前持仓中卖出的股数。
+持有时，设置股数为0。"""
 
 
 def portfolio_manager_agent(state: AgentState) -> AgentState:
@@ -52,7 +51,7 @@ def portfolio_manager_agent(state: AgentState) -> AgentState:
             for s in ticker_signals
         )
 
-        risk_text = "No risk assessment available."
+        risk_text = "暂无风险评估。"
         if ticker_risk:
             risk_text = (
                 f"Risk Score: {ticker_risk.risk_score:.0%}\n"
@@ -71,26 +70,26 @@ def portfolio_manager_agent(state: AgentState) -> AgentState:
 
         prompt = f"""{SYSTEM_PROMPT}
 
-TICKER: {ticker} ({company_name})
-CURRENT PRICE: {f'${current_price:.2f}' if current_price else 'N/A'}
-DATA QUALITY: {data_quality}
+股票代码：{ticker}（{company_name}）
+当前价格：{f'${current_price:.2f}' if current_price else 'N/A'}
+数据质量：{data_quality}
 
-PORTFOLIO STATE:
-- Cash Available: ${portfolio_cash:,.2f}
-- Current Position in {ticker}: {current_shares} shares {f'(${current_shares * current_price:,.2f})' if current_price else ''}
+投资组合状态：
+- 可用现金：${portfolio_cash:,.2f}
+- {ticker} 当前持仓：{current_shares} 股 {f'(${current_shares * current_price:,.2f})' if current_price else ''}
 
-ANALYST SIGNALS:
+分析师信号：
 {signals_text}
 
-RISK ASSESSMENT:
+风险评估：
 {risk_text}
 
-Make your final trade decision as a TradeDecision with:
-- action: "buy", "sell", or "hold"
-- quantity: number of shares to trade (0 if hold)
-- confidence: your overall conviction in this decision
-- reasoning: full synthesis of all inputs (2-3 paragraphs). Be transparent about
-  data limitations and do not overstate conclusions.
+做出你的最终交易决策，输出 TradeDecision，包含：
+- action："buy"、"sell" 或 "hold"
+- quantity：交易股数（持有则为0）
+- confidence：你对此决策的整体确信度
+- reasoning：综合所有输入的完整分析（2-3段，用中文撰写）。
+  坦诚说明数据局限性，不要夸大结论。
 """
 
         decision = call_llm(prompt, response_model=TradeDecision)

@@ -9,23 +9,21 @@ from src.state import AgentState, RiskAssessment
 from src.llm.models import call_llm
 
 
-SYSTEM_PROMPT = """You are a risk manager for an investment portfolio. Your job is to
-evaluate the risk of each potential trade and set appropriate position limits.
+SYSTEM_PROMPT = """你是一位投资组合的风险管理经理。你的工作是评估每笔潜在交易的风险并设定适当的仓位限制。
 
-Your approach:
-- Review all agent signals and their confidence levels
-- Assess price volatility from recent data
-- Consider portfolio concentration risk
-- Evaluate downside scenarios
-- Set position limits that protect capital while allowing upside
+你的方法：
+- 审查所有智能体信号及其置信度
+- 根据近期数据评估价格波动率
+- 考虑投资组合集中度风险
+- 评估下行情景
+- 设定在保护资本的同时允许上行空间的仓位限制
 
-CRITICAL RULES:
-- Be conservative — capital preservation is your top priority.
-- When agents disagree, lean toward smaller positions.
-- When agent confidence is low (especially if data was unavailable), further reduce position sizes.
-- Do NOT fabricate risk factors. Only cite risks supported by the data provided.
-- If an agent reported "neutral with low confidence" due to data unavailability,
-  treat this as additional uncertainty and factor it into your risk score."""
+关键规则：
+- 保守为上——资本保全是你的首要任务。
+- 当智能体意见分歧时，倾向于更小的仓位。
+- 当智能体置信度低（尤其是因为数据不可用时），进一步减小仓位。
+- 不要编造风险因素。只引用数据支持的风险。
+- 如果某个智能体因数据不可用而报告"中性、低置信度"，将此视为额外的不确定性并纳入风险评分。"""
 
 
 def risk_manager_agent(state: AgentState) -> AgentState:
@@ -62,24 +60,24 @@ def risk_manager_agent(state: AgentState) -> AgentState:
 
         prompt = f"""{SYSTEM_PROMPT}
 
-TICKER: {ticker}
-CURRENT PRICE: {f'${avg_price:.2f}' if avg_price else 'N/A'}
-DAILY VOLATILITY: {f'{volatility:.2%}' if volatility else 'N/A (insufficient price data)'}
-DATA QUALITY: {data_quality}
-CURRENT POSITION: {current_position} shares {f'(${current_position * avg_price:,.2f})' if avg_price else ''}
-PORTFOLIO CASH: ${portfolio_cash:,.2f}
+股票代码：{ticker}
+当前价格：{f'${avg_price:.2f}' if avg_price else 'N/A'}
+日波动率：{f'{volatility:.2%}' if volatility else 'N/A（价格数据不足）'}
+数据质量：{data_quality}
+当前持仓：{current_position} 股 {f'(${current_position * avg_price:,.2f})' if avg_price else ''}
+投资组合现金：${portfolio_cash:,.2f}
 
-AGENT SIGNALS:
+智能体信号：
 {signals_summary}
 
-Note: If any agent reported low confidence due to data unavailability, factor that
-uncertainty into your risk assessment. Lack of data is itself a risk factor.
+注意：如果有任何智能体因数据不可用而报告低置信度，请将该不确定性纳入你的风险评估。
+数据缺失本身就是一个风险因素。
 
-Produce a RiskAssessment with:
-- risk_score: 0.0 (very low risk) to 1.0 (very high risk)
-- max_position_size: as a fraction of total portfolio (0.0 to 0.25)
-- risk_factors: list of key risks (3-5 items)
-- reasoning: your detailed risk analysis
+请输出 RiskAssessment，包含：
+- risk_score：0.0（极低风险）到 1.0（极高风险）
+- max_position_size：占总投资组合的比例（0.0 到 0.25）
+- risk_factors：主要风险列表（3-5项）
+- reasoning：你的详细风险分析（用中文撰写）
 """
 
         assessment = call_llm(prompt, response_model=RiskAssessment)

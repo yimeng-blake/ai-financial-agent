@@ -186,795 +186,795 @@ SECTOR_CONFIGS: dict[str, SectorConfig] = {
 
     "software_infra": SectorConfig(
         key="software_infra",
-        label="Software Infrastructure",
-        analysis_framework="""You are analyzing a SOFTWARE INFRASTRUCTURE company. Apply a cloud/SaaS-native framework:
+        label="软件基础设施",
+        analysis_framework="""你正在分析一家软件基础设施公司。请运用云计算/SaaS原生分析框架：
 
-PRIORITY METRICS (weight heavily):
-- Revenue growth rate and acceleration/deceleration trends
-- Gross margins (should be 70%+ for pure software; lower suggests hardware/services mix)
-- Rule of 40 assessment: revenue growth % + FCF/operating margin % (>40 is strong)
-- Operating leverage: are margins expanding as revenue scales?
-- Free Cash Flow margins (more relevant than GAAP net income for high-growth software)
-- Stock-based compensation as % of revenue (dilution risk)
+优先指标（重点权衡）：
+- 营收增长率及加速/减速趋势
+- 毛利率（纯软件公司应在70%以上；较低则表明存在硬件/服务混合）
+- Rule of 40 评估：营收增长率% + FCF/营业利润率%（>40为强劲）
+- 经营杠杆：随着营收规模扩大，利润率是否在扩张？
+- FCF利润率（对高增长软件公司而言比GAAP净利润更具参考价值）
+- 股权激励占营收百分比（稀释风险）
 
-VALUATION FRAMEWORK:
-- EV/Revenue is the primary multiple (P/E is often misleading for growth software)
-- Forward revenue growth rate vs. current EV/Revenue multiple
-- Compare FCF yield to growth rate for mature names
-- High multiples require sustained 25%+ growth to be justified
+估值框架：
+- EV/Revenue 是主要估值倍数（P/E 对增长型软件公司往往具有误导性）
+- 前瞻营收增长率与当前 EV/Revenue 倍数的对比
+- 对成熟标的比较 FCF 收益率与增长率
+- 高估值倍数需要持续25%以上的增长率来支撑
 
-COMPETITIVE MOAT INDICATORS:
-- Platform switching costs and developer ecosystem lock-in
-- Infrastructure-layer stickiness (harder to rip out than app-layer)
-- Open-source vs. proprietary positioning
-- Multi-cloud / hybrid cloud optionality""",
+竞争护城河指标：
+- 平台切换成本和开发者生态系统锁定效应
+- 基础设施层的粘性（比应用层更难被替换）
+- 开源与专有定位
+- 多云/混合云可选性""",
         key_metrics=["revenue_growth", "return_on_equity", "market_cap", "forward_pe"],
-        sentiment_context="Focus on cloud spending trends, enterprise IT budgets, AI/infrastructure adoption, multi-cloud dynamics, and developer platform shifts.",
+        sentiment_context="关注云计算支出趋势、企业IT预算、AI/基础设施采用率、多云动态以及开发者平台变化。",
     ),
 
     "software_app": SectorConfig(
         key="software_app",
-        label="Application Software / SaaS",
-        analysis_framework="""You are analyzing an APPLICATION SOFTWARE / SaaS company. Apply a recurring-revenue framework:
+        label="应用软件 / SaaS",
+        analysis_framework="""你正在分析一家应用软件/SaaS公司。请运用经常性收入分析框架：
 
-PRIORITY METRICS:
-- Revenue growth rate and consistency (look for acceleration or deceleration)
-- Gross margins (70%+ expected for SaaS; lower may indicate services drag)
-- Rule of 40: revenue growth % + operating margin % — the key SaaS health metric
-- Operating leverage: is the company improving margins as it scales?
-- Free Cash Flow generation vs. stock-based compensation burden
-- Revenue per employee as an efficiency indicator
+优先指标：
+- 营收增长率及一致性（关注加速或减速趋势）
+- 毛利率（SaaS公司预期70%以上；较低可能表明服务业务拖累）
+- Rule of 40：营收增长率% + 营业利润率% — SaaS健康度的关键指标
+- 经营杠杆：公司在规模扩张的同时利润率是否在改善？
+- FCF产生能力与股权激励负担的对比
+- 人均营收作为效率指标
 
-VALUATION FRAMEWORK:
-- EV/Revenue multiple relative to growth rate (the "growth-adjusted" ratio)
-- Path to profitability if currently unprofitable — when does FCF turn positive?
-- Compare to SaaS peers at similar growth stages
-- P/E becomes relevant only for mature, profitable SaaS (growth <20%)
+估值框架：
+- EV/Revenue 倍数相对于增长率（"增长调整后"比率）
+- 若当前未盈利——FCF何时转正？盈利路径分析
+- 与相似增长阶段的SaaS同行进行比较
+- P/E 仅在成熟、盈利的SaaS公司（增长率<20%）中才具参考价值
 
-COMPETITIVE MOAT:
-- Category leadership and market share trends
-- Workflow embeddedness — is the product mission-critical or nice-to-have?
-- Network effects or data advantages
-- Vertical specialization vs. horizontal platform play""",
+竞争护城河：
+- 品类领导地位和市场份额趋势
+- 工作流嵌入程度——产品是关键任务级别还是锦上添花？
+- 网络效应或数据优势
+- 垂直专业化与水平平台化策略""",
         key_metrics=["revenue_growth", "return_on_equity", "market_cap", "forward_pe"],
-        sentiment_context="Focus on enterprise software spending cycles, competitive wins/losses, product-led growth signals, and AI feature monetization.",
+        sentiment_context="关注企业软件支出周期、竞争中的客户得失、产品驱动增长信号以及AI功能货币化。",
     ),
 
     # ===== SEMICONDUCTORS =====
 
     "semiconductors": SectorConfig(
         key="semiconductors",
-        label="Semiconductors",
-        analysis_framework="""You are analyzing a SEMICONDUCTOR company. Apply a cyclical-tech framework:
+        label="半导体",
+        analysis_framework="""你正在分析一家半导体公司。请运用周期性科技分析框架：
 
-PRIORITY METRICS:
-- Revenue growth IN CONTEXT of the semiconductor cycle (are we in expansion, peak, contraction, or trough?)
-- Gross margin trends — the single best indicator of pricing power and product mix
-- R&D spending as % of revenue (critical for maintaining technology leadership)
-- Capital expenditure intensity and capacity utilization (for fabs)
-- Inventory days and inventory trends — rising inventory often signals demand weakness
+优先指标：
+- 结合半导体周期背景的营收增长（当前处于扩张期、峰值期、收缩期还是低谷期？）
+- 毛利率趋势——定价能力和产品组合的最佳单一指标
+- R&D支出占营收百分比（维持技术领先地位的关键）
+- 资本支出强度和产能利用率（针对晶圆厂）
+- 库存天数和库存趋势——库存上升往往预示需求疲软
 
-VALUATION FRAMEWORK:
-- P/E normalized for cycle position (low P/E at cycle peak is a value TRAP)
-- High P/E at cycle trough may actually be a BUY signal (earnings are depressed)
-- EV/EBITDA relative to cycle-adjusted margins
-- Compare to historical valuation range across cycles
+估值框架：
+- 根据周期位置进行正常化的 P/E（周期峰值时的低P/E是价值陷阱）
+- 周期低谷时的高P/E实际上可能是买入信号（盈利被压低）
+- EV/EBITDA 相对于周期调整后的利润率
+- 与历史跨周期估值区间进行比较
 
-CYCLICAL AWARENESS (CRITICAL):
-- Semiconductor stocks are deeply cyclical. Do NOT treat current earnings as steady-state.
-- Evaluate where we are in the demand cycle for this company's end markets
-- AI/datacenter demand may be structural (less cyclical) vs. PC/mobile (highly cyclical)
-- Inventory correction phases typically last 2-4 quarters
+周期性意识（至关重要）：
+- 半导体股票具有深度周期性。不要将当前盈利视为稳态水平。
+- 评估该公司终端市场的需求周期所处阶段
+- AI/数据中心需求可能是结构性的（周期性较弱），而PC/移动端（高度周期性）
+- 库存修正阶段通常持续2-4个季度
 
-COMPETITIVE MOAT:
-- Technology node leadership (process advantage, e.g., TSMC's leading-edge fabs)
-- Customer design wins and supply agreement duration
-- IP portfolio depth and licensing revenue
-- Geopolitical exposure: foundry location, export controls, supply chain concentration""",
+竞争护城河：
+- 技术节点领先（工艺优势，例如台积电的先进制程晶圆厂）
+- 客户设计导入和供应协议期限
+- 知识产权组合深度和许可收入
+- 地缘政治风险敞口：晶圆厂所在地、出口管制、供应链集中度""",
         key_metrics=["revenue_growth", "pe_ratio", "debt_to_equity", "return_on_equity"],
-        sentiment_context="Focus on chip demand cycles, AI accelerator demand, datacenter buildout, inventory corrections, geopolitical/export control risks, design win announcements, and end-market demand signals.",
+        sentiment_context="关注芯片需求周期、AI加速器需求、数据中心建设、库存修正、地缘政治/出口管制风险、设计导入公告以及终端市场需求信号。",
     ),
 
     "semi_equipment": SectorConfig(
         key="semi_equipment",
-        label="Semiconductor Equipment",
-        analysis_framework="""You are analyzing a SEMICONDUCTOR EQUIPMENT company. Apply a capital-goods-for-tech framework:
+        label="半导体设备",
+        analysis_framework="""你正在分析一家半导体设备公司。请运用科技领域资本品分析框架：
 
-PRIORITY METRICS:
-- Revenue and bookings trends — bookings are a LEADING indicator, revenue is lagging
-- Book-to-bill ratio (>1.0 = growing demand, <1.0 = slowing)
-- Gross margins — high margins indicate technology moat and pricing power
-- Backlog duration and visibility — how far out is the order book?
-- R&D intensity — maintaining equipment technology leadership is expensive
+优先指标：
+- 营收和订单趋势——订单是领先指标，营收是滞后指标
+- 订单出货比（>1.0 = 需求增长，<1.0 = 需求放缓）
+- 毛利率——高利润率表明技术护城河和定价能力
+- 积压订单持续时间和可见性——订单簿能覆盖多远的未来？
+- R&D强度——维持设备技术领先地位成本高昂
 
-VALUATION FRAMEWORK:
-- P/E relative to the WFE (Wafer Fab Equipment) spending cycle
-- Equipment stocks often peak before the semiconductor cycle peaks
-- Forward P/E based on normalized earnings (avoid using peak/trough earnings)
-- Compare EV/EBITDA to historical range
+估值框架：
+- P/E 相对于WFE（晶圆厂设备）支出周期
+- 设备股通常在半导体周期见顶之前就已触顶
+- 基于正常化盈利的前瞻 P/E（避免使用峰值/低谷盈利）
+- 将 EV/EBITDA 与历史区间进行比较
 
-INDUSTRY DYNAMICS:
-- Wafer Fab Equipment (WFE) total spending trend
-- Customer concentration (few large fabs = concentrated risk)
-- Technology transitions (EUV, GAA, advanced packaging) create upgrade cycles
-- China exposure and export control compliance risks""",
+行业动态：
+- WFE总支出趋势
+- 客户集中度（大型晶圆厂数量少 = 风险集中）
+- 技术迭代（EUV、GAA、先进封装）创造升级周期
+- 中国风险敞口和出口管制合规风险""",
         key_metrics=["revenue_growth", "pe_ratio", "return_on_equity", "market_cap"],
-        sentiment_context="Focus on WFE spending forecasts, fab construction plans, technology node transitions, China export control developments, and major customer capex announcements.",
+        sentiment_context="关注WFE支出预测、晶圆厂建设计划、技术节点迭代、中国出口管制动态以及主要客户资本支出公告。",
     ),
 
     "hardware_consumer": SectorConfig(
         key="hardware_consumer",
-        label="Consumer Hardware / Electronics",
-        analysis_framework="""You are analyzing a CONSUMER HARDWARE / ELECTRONICS company. Apply a product-cycle framework:
+        label="消费硬件/电子产品",
+        analysis_framework="""你正在分析一家消费硬件/电子产品公司。请运用产品周期分析框架：
 
-PRIORITY METRICS:
-- Revenue growth by product segment (identify growth drivers vs. mature lines)
-- Gross margins and product mix trends — hardware margins are lower than software
-- Services/recurring revenue as % of total (higher = more valuable, more predictable)
-- Average Selling Price (ASP) trends — are consumers trading up or down?
-- Installed base size and growth — drives services and accessory revenue
+优先指标：
+- 按产品线划分的营收增长（识别增长驱动力与成熟产品线）
+- 毛利率和产品组合趋势——硬件利润率低于软件
+- 服务/经常性收入占总收入的百分比（占比越高越有价值，可预测性越强）
+- 平均售价（ASP）趋势——消费者是在升级消费还是降级消费？
+- 装机量规模和增长——驱动服务和配件收入
 
-VALUATION FRAMEWORK:
-- P/E is the primary metric for profitable hardware companies
-- Separate hardware (lower multiple) from services (higher multiple) in valuation
-- FCF yield matters — hardware companies should generate strong cash flow
-- Dividend and buyback capacity from cash generation
+估值框架：
+- P/E 是盈利硬件公司的主要指标
+- 在估值中将硬件（较低倍数）与服务（较高倍数）分开
+- FCF收益率很重要——硬件公司应产生强劲的现金流
+- 现金产生能力所支撑的股息和回购空间
 
-COMPETITIVE MOAT:
-- Ecosystem lock-in (app stores, accessories, interoperability)
-- Brand loyalty and pricing power
-- Supply chain management excellence
-- R&D scale advantages and patent portfolio""",
+竞争护城河：
+- 生态系统锁定（应用商店、配件、互操作性）
+- 品牌忠诚度和定价能力
+- 供应链管理卓越能力
+- R&D规模优势和专利组合""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "dividend_yield", "market_cap"],
-        sentiment_context="Focus on product launch cycles, upgrade rates, services revenue growth, supply chain dynamics, and competitive threats from alternative ecosystems.",
+        sentiment_context="关注产品发布周期、升级率、服务收入增长、供应链动态以及来自替代生态系统的竞争威胁。",
     ),
 
     # ===== HEALTHCARE =====
 
     "biotech": SectorConfig(
         key="biotech",
-        label="Biotechnology",
-        analysis_framework="""You are analyzing a BIOTECHNOLOGY company. Apply a pipeline-risk-adjusted framework:
+        label="生物科技",
+        analysis_framework="""你正在分析一家生物科技公司。请运用管线风险调整分析框架：
 
-PRIORITY METRICS:
-- Cash position and quarterly burn rate — calculate runway in quarters
-- Revenue from approved products (if any) — trajectory and market share
-- R&D spending level — is it sustainable given cash position?
-- Debt levels relative to cash (net cash/debt position)
-- Current ratio — near-term liquidity risk
+优先指标：
+- 现金储备和季度消耗率——以季度为单位计算资金跑道
+- 已获批产品的收入（如有）——增长轨迹和市场份额
+- R&D支出水平——相对于现金储备是否可持续？
+- 相对于现金的负债水平（净现金/净负债状况）
+- 流动比率——近期流动性风险
 
-VALUATION FRAMEWORK:
-- If PRE-REVENUE: market cap vs. total addressable market (highly speculative)
-- If REVENUE-GENERATING: P/S or EV/Revenue relative to growth rate
-- Cash per share as a floor valuation
-- Binary event risk: FDA decisions create step-function price outcomes
-- Sum-of-the-parts for multi-program companies
+估值框架：
+- 若为临床前/未有收入阶段：市值与总可及市场规模对比（高度投机性）
+- 若已产生收入：P/S 或 EV/Revenue 相对于增长率
+- 每股现金作为估值底部
+- 二元事件风险：FDA决策产生阶梯式价格变动
+- 多管线公司的分部加总估值
 
-KEY RISK ASSESSMENT:
-- Clinical trial failure risk (Phase 1: ~90% fail, Phase 2: ~70%, Phase 3: ~40%)
-- Single-product dependency vs. diversified pipeline
-- Dilution risk from future capital raises (common in biotech)
-- Patent cliff timing for existing products
-- Regulatory pathway complexity (accelerated vs. standard approval)
+关键风险评估：
+- 临床试验失败风险（I期：约90%失败，II期：约70%，III期：约40%）
+- 单一产品依赖与多元化管线
+- 未来融资导致的稀释风险（生物科技中常见）
+- 现有产品的专利悬崖时间节点
+- 监管审批路径复杂性（加速审批与标准审批）
 
-NOTE: Be especially cautious with biotech. Data quality limitations matter more here
-because pipeline value (the main driver) is NOT captured in financial statements.""",
+注意：对生物科技公司需格外谨慎。数据质量的局限性在此更为重要，
+因为管线价值（主要驱动因素）无法在财务报表中体现。""",
         key_metrics=["revenue", "net_income", "current_ratio", "market_cap", "debt_to_equity"],
-        sentiment_context="Focus on clinical trial data readouts, FDA approval/rejection decisions, partnership or licensing deals, patent expiration timelines, and competitive drug development.",
+        sentiment_context="关注临床试验数据公布、FDA批准/拒绝决定、合作或授权交易、专利到期时间线以及竞争性药物研发动态。",
     ),
 
     "pharma": SectorConfig(
         key="pharma",
-        label="Pharmaceuticals",
-        analysis_framework="""You are analyzing a PHARMACEUTICAL company. Apply a diversified-pipeline framework:
+        label="制药",
+        analysis_framework="""你正在分析一家制药公司。请运用多元化管线分析框架：
 
-PRIORITY METRICS:
-- Revenue growth and composition by drug/therapeutic area
-- R&D pipeline depth — number of programs by phase
-- Gross margins (typically 60-80% for pharma)
-- Operating margins and SG&A efficiency
-- Dividend yield and payout ratio — pharma is often a dividend play
+优先指标：
+- 按药品/治疗领域划分的营收增长和构成
+- R&D管线深度——按临床阶段划分的项目数量
+- 毛利率（制药公司通常为60-80%）
+- 营业利润率和销售管理费用效率
+- 股息收益率和派息率——制药常作为股息投资标的
 
-VALUATION FRAMEWORK:
-- P/E relative to pharma peers and growth rate
-- Patent cliff analysis: when do key drugs lose exclusivity?
-- Pipeline optionality value (hard to quantify but critical)
-- Dividend yield as a floor valuation support
-- FCF yield and capital return capacity
+估值框架：
+- P/E 相对于制药同行和增长率
+- 专利悬崖分析：关键药品何时失去专利保护？
+- 管线期权价值（难以量化但至关重要）
+- 股息收益率作为估值底部支撑
+- FCF收益率和资本回报能力
 
-RISK FACTORS:
-- Patent cliff concentration (revenue loss when blockbusters go generic)
-- Drug pricing / regulatory risk (government negotiation, IRA impact)
-- Pipeline failure risk across therapeutic areas
-- M&A strategy — acquiring growth vs. organic development""",
+风险因素：
+- 专利悬崖集中度（重磅药物仿制化时的收入损失）
+- 药品定价/监管风险（政府议价、IRA影响）
+- 各治疗领域的管线失败风险
+- 并购策略——收购增长与有机发展""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "dividend_yield", "return_on_equity"],
-        sentiment_context="Focus on patent expiration timelines, drug approval decisions, pricing regulation developments, M&A activity, and pipeline clinical data.",
+        sentiment_context="关注专利到期时间线、药品审批决定、定价监管动态、并购活动以及管线临床数据。",
     ),
 
     "medtech": SectorConfig(
         key="medtech",
-        label="Medical Devices / MedTech",
-        analysis_framework="""You are analyzing a MEDICAL DEVICE / MEDTECH company. Apply a procedure-volume framework:
+        label="医疗器械/医疗科技",
+        analysis_framework="""你正在分析一家医疗器械/医疗科技公司。请运用手术量驱动分析框架：
 
-PRIORITY METRICS:
-- Organic revenue growth (exclude M&A contributions)
-- Gross margins (typically 55-70% for medtech)
-- R&D as % of revenue — innovation pipeline health
-- Recurring revenue component (consumables, services, software)
-- Geographic diversification — emerging market exposure as growth driver
+优先指标：
+- 有机营收增长（剔除并购贡献）
+- 毛利率（医疗科技通常为55-70%）
+- R&D占营收百分比——创新管线健康度
+- 经常性收入组成部分（耗材、服务、软件）
+- 地域多元化——新兴市场敞口作为增长驱动力
 
-VALUATION FRAMEWORK:
-- P/E and EV/EBITDA relative to medtech peers
-- Growth premium justified by procedure volume trends
-- Margin expansion trajectory (operating leverage)
-- M&A integration track record (serial acquirers common in medtech)
+估值框架：
+- P/E 和 EV/EBITDA 相对于医疗科技同行
+- 手术量趋势支撑的增长溢价
+- 利润率扩张轨迹（经营杠杆）
+- 并购整合记录（医疗科技领域的连续收购者常见）
 
-COMPETITIVE MOAT:
-- Regulatory barriers (FDA clearance/approval as competitive moat)
-- Surgeon training and switching costs
-- Installed base and recurring consumable revenue
-- Patent portfolio and technology differentiation""",
+竞争护城河：
+- 监管壁垒（FDA准入/批准作为竞争护城河）
+- 外科医生培训和切换成本
+- 装机基础和经常性耗材收入
+- 专利组合和技术差异化""",
         key_metrics=["revenue_growth", "pe_ratio", "return_on_equity", "debt_to_equity"],
-        sentiment_context="Focus on procedure volume trends, FDA clearances/approvals, hospital capital spending, competitive product launches, and healthcare policy changes.",
+        sentiment_context="关注手术量趋势、FDA准入/批准、医院资本支出、竞争性产品发布以及医疗保健政策变化。",
     ),
 
     "healthcare_services": SectorConfig(
         key="healthcare_services",
-        label="Healthcare Services",
-        analysis_framework="""You are analyzing a HEALTHCARE SERVICES company. Apply a managed-care/services framework:
+        label="医疗保健服务",
+        analysis_framework="""你正在分析一家医疗保健服务公司。请运用管理式医疗/服务分析框架：
 
-PRIORITY METRICS:
-- Revenue growth driven by membership/enrollment growth and pricing
-- Medical cost ratio / medical loss ratio (MLR) — core profitability metric
-- Operating margins and administrative cost efficiency
-- Membership/customer count trends and retention
-- Cash flow conversion — healthcare services typically generate strong FCF
+优先指标：
+- 由会员/参保人数增长和定价驱动的营收增长
+- 医疗成本率/医疗赔付率（MLR）——核心盈利能力指标
+- 营业利润率和管理费用效率
+- 会员/客户数量趋势和留存率
+- 现金流转化——医疗保健服务通常产生强劲的FCF
 
-VALUATION FRAMEWORK:
-- P/E relative to healthcare services peers
-- Growth in covered lives or patient volume
-- Margin improvement potential (operating leverage)
-- Regulatory risk premium (ACA, Medicare/Medicaid policy changes)""",
+估值框架：
+- P/E 相对于医疗保健服务同行
+- 参保人数或患者量的增长
+- 利润率改善潜力（经营杠杆）
+- 监管风险溢价（ACA、Medicare/Medicaid政策变化）""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "return_on_equity"],
-        sentiment_context="Focus on healthcare policy changes, enrollment trends, medical cost inflation, regulatory developments, and vertical integration strategies.",
+        sentiment_context="关注医疗保健政策变化、参保趋势、医疗成本通胀、监管动态以及纵向整合策略。",
     ),
 
     # ===== FINANCIAL SERVICES =====
 
     "banking": SectorConfig(
         key="banking",
-        label="Banking",
-        analysis_framework="""You are analyzing a BANK. Apply a spread-lending and credit-quality framework:
+        label="银行业",
+        analysis_framework="""你正在分析一家银行。请运用利差贷款和信贷质量分析框架：
 
-PRIORITY METRICS:
-- Net Interest Margin (NIM) — the core profitability driver for banks
-- Loan growth rate — organic balance sheet expansion
-- Net charge-off ratio and provision for credit losses — credit quality indicators
-- Efficiency ratio (lower is better; <55% is strong, >65% is weak)
-- CET1 capital ratio — regulatory capital adequacy (>10% is well-capitalized)
-- Return on Tangible Common Equity (ROTCE) — the key bank profitability metric
+优先指标：
+- 净息差（NIM）——银行核心盈利能力驱动因素
+- 贷款增长率——资产负债表的有机扩张
+- 净冲销率和信贷损失拨备——信贷质量指标
+- 效率比率（越低越好；<55%为强劲，>65%为疲弱）
+- CET1资本比率——监管资本充足率（>10%为资本充足）
+- 有形普通股权益回报率（ROTCE）——银行盈利能力的关键指标
 
-VALUATION FRAMEWORK:
-- Price-to-Tangible Book Value (P/TBV) is the PRIMARY bank valuation metric
-- P/E relative to normalized earnings (avoid cycle-peak or trough earnings)
-- Dividend yield and capital return capacity (buybacks + dividends)
-- Trading at a premium to book suggests market expects sustained high ROTCE
+估值框架：
+- 有形账面价值比（P/TBV）是银行估值的首要指标
+- P/E 相对于正常化盈利（避免使用周期峰值或低谷盈利）
+- 股息收益率和资本回报能力（回购+股息）
+- 溢价交易（高于账面价值）表明市场预期持续的高ROTCE
 
-MACRO SENSITIVITY:
-- Interest rate environment directly impacts NIM
-- Credit cycle position — are we early or late in the credit deterioration cycle?
-- Yield curve shape (steeper = better for banks, inverted = compresses NIM)
-- Regulatory capital requirements and stress test results
+宏观敏感性：
+- 利率环境直接影响NIM
+- 信贷周期所处阶段——我们处于信贷恶化周期的早期还是晚期？
+- 收益率曲线形态（更陡 = 对银行更有利，倒挂 = 压缩NIM）
+- 监管资本要求和压力测试结果
 
-NOTE: Standard metrics like revenue growth and P/E are LESS informative for banks.
-Focus on NIM, ROTCE, credit quality, and book value.""",
+注意：对银行而言，营收增长和P/E等标准指标参考价值较低。
+重点关注NIM、ROTCE、信贷质量和账面价值。""",
         key_metrics=["pe_ratio", "eps", "dividend_yield", "return_on_equity", "debt_to_equity"],
-        sentiment_context="Focus on interest rate trajectory, credit quality trends, regulatory developments, capital return announcements, and macroeconomic indicators affecting loan demand.",
+        sentiment_context="关注利率走势、信贷质量趋势、监管动态、资本回报公告以及影响贷款需求的宏观经济指标。",
     ),
 
     "insurance": SectorConfig(
         key="insurance",
-        label="Insurance",
-        analysis_framework="""You are analyzing an INSURANCE company. Apply an underwriting-profitability framework:
+        label="保险业",
+        analysis_framework="""你正在分析一家保险公司。请运用承保盈利能力分析框架：
 
-PRIORITY METRICS:
-- Combined ratio (P&C): <100% = underwriting profit (lower is better)
-- Premium growth — organic vs. rate-driven
-- Investment portfolio yield and returns
-- Reserve adequacy — is the company under- or over-reserved?
-- Return on Equity — the key insurance profitability metric
-- Book value per share growth (insurance is a book-value business)
+优先指标：
+- 综合成本率（财产险/意外险）：<100% = 承保盈利（越低越好）
+- 保费增长——有机增长与费率驱动增长
+- 投资组合收益率和回报
+- 准备金充足性——公司是准备金不足还是超额计提？
+- ROE——保险盈利能力的关键指标
+- 每股账面价值增长（保险是账面价值驱动的业务）
 
-VALUATION FRAMEWORK:
-- Price-to-Book Value is the primary valuation metric
-- P/E normalized across underwriting cycles
-- Dividend yield and total capital return
-- Catastrophe exposure and reinsurance costs""",
+估值框架：
+- 市净率（P/B）是主要估值指标
+- 跨承保周期正常化的 P/E
+- 股息收益率和总资本回报
+- 巨灾风险敞口和再保险成本""",
         key_metrics=["pe_ratio", "return_on_equity", "dividend_yield", "debt_to_equity"],
-        sentiment_context="Focus on catastrophe losses, pricing cycle trends, interest rate impacts on investment income, regulatory capital requirements, and reserve development.",
+        sentiment_context="关注巨灾损失、定价周期趋势、利率对投资收益的影响、监管资本要求以及准备金变动。",
     ),
 
     "capital_markets": SectorConfig(
         key="capital_markets",
-        label="Capital Markets / Asset Management",
-        analysis_framework="""You are analyzing a CAPITAL MARKETS / ASSET MANAGEMENT company. Apply an AUM-and-fee framework:
+        label="资本市场/资产管理",
+        analysis_framework="""你正在分析一家资本市场/资产管理公司。请运用AUM和费率分析框架：
 
-PRIORITY METRICS:
-- Assets Under Management (AUM) growth — market appreciation + net inflows
-- Fee rate trends (basis points charged) — under pressure from passive/ETF competition?
-- Revenue mix: management fees vs. performance fees vs. transaction fees
-- Operating margins — scale advantages in asset management
-- Compensation ratio (for broker-dealers and investment banks)
+优先指标：
+- 管理资产规模（AUM）增长——市场增值+净流入
+- 费率趋势（收取的基点数）——是否受到被动投资/ETF竞争的压力？
+- 收入构成：管理费 vs. 业绩报酬 vs. 交易费
+- 营业利润率——资产管理的规模优势
+- 薪酬比率（针对经纪交易商和投资银行）
 
-VALUATION FRAMEWORK:
-- P/E relative to earnings growth and quality
-- AUM multiple (EV/AUM) for pure asset managers
-- Dividend yield for mature firms
-- Fee rate sustainability risk from passive investing trend""",
+估值框架：
+- P/E 相对于盈利增长和质量
+- AUM倍数（EV/AUM）适用于纯资产管理公司
+- 成熟公司的股息收益率
+- 被动投资趋势下的费率可持续性风险""",
         key_metrics=["revenue_growth", "pe_ratio", "return_on_equity", "dividend_yield"],
-        sentiment_context="Focus on market levels (drive AUM), fund flow trends, fee compression, regulatory changes, and competitive dynamics between active and passive management.",
+        sentiment_context="关注市场水平（驱动AUM）、资金流向趋势、费率压缩、监管变化以及主动管理与被动管理之间的竞争动态。",
     ),
 
     "fintech": SectorConfig(
         key="fintech",
-        label="Fintech / Payments",
-        analysis_framework="""You are analyzing a FINTECH / PAYMENTS company. Apply a transaction-volume framework:
+        label="金融科技/支付",
+        analysis_framework="""你正在分析一家金融科技/支付公司。请运用交易量驱动分析框架：
 
-PRIORITY METRICS:
-- Total Payment Volume (TPV) or transaction volume growth
-- Revenue growth and take rate trends (revenue as % of volume processed)
-- Gross margins — should be high for pure payment processors
-- Operating leverage — are margins expanding with scale?
-- Active accounts / customers growth and engagement metrics
-- Cross-selling effectiveness (multiple products per customer)
+优先指标：
+- 总支付金额（TPV）或交易量增长
+- 营收增长和费率趋势（营收占处理交易量的百分比）
+- 毛利率——纯支付处理商应有较高的毛利率
+- 经营杠杆——利润率是否随规模扩张而提高？
+- 活跃账户/客户增长和参与度指标
+- 交叉销售效果（每客户多产品数量）
 
-VALUATION FRAMEWORK:
-- EV/Revenue or P/E for profitable fintechs
-- Growth-adjusted P/E (PEG ratio)
-- Compare take rates to peers — are they sustainable?
-- Regulatory risk premium for lending fintechs vs. pure payments""",
+估值框架：
+- 盈利的金融科技公司使用 EV/Revenue 或 P/E
+- 增长调整后的 P/E（PEG比率）
+- 与同行比较费率——是否可持续？
+- 贷款类金融科技与纯支付类的监管风险溢价""",
         key_metrics=["revenue_growth", "pe_ratio", "return_on_equity", "market_cap"],
-        sentiment_context="Focus on digital payment adoption trends, regulatory developments, competitive dynamics, cross-border payment volumes, and crypto/blockchain impacts.",
+        sentiment_context="关注数字支付普及趋势、监管动态、竞争格局、跨境支付量以及加密货币/区块链的影响。",
     ),
 
     # ===== ENERGY =====
 
     "energy": SectorConfig(
         key="energy",
-        label="Energy / Oil & Gas",
-        analysis_framework="""You are analyzing an ENERGY / OIL & GAS company. Apply a commodity-cycle framework:
+        label="能源/石油天然气",
+        analysis_framework="""你正在分析一家能源/石油天然气公司。请运用大宗商品周期分析框架：
 
-PRIORITY METRICS:
-- Production volumes and growth trajectory
-- Reserve replacement ratio (>100% means growing reserves)
-- Break-even oil/gas price — at what commodity price is the company profitable?
-- Free Cash Flow yield — energy companies should return cash at high commodity prices
-- Debt-to-EBITDA — leverage is dangerous in a cyclical commodity business
-- Capital discipline — reinvestment rate vs. shareholder returns
+优先指标：
+- 产量和增长轨迹
+- 储量替代率（>100%意味着储量在增长）
+- 盈亏平衡油/气价格——在何种商品价格下公司能实现盈利？
+- FCF收益率——能源公司在高商品价格时应回报现金
+- Debt-to-EBITDA——在周期性大宗商品业务中高杠杆是危险的
+- 资本纪律——再投资率与股东回报
 
-VALUATION FRAMEWORK:
-- EV/EBITDA is the primary metric (normalize for commodity prices)
-- FCF yield relative to peers (should be high given commodity risk premium)
-- P/E is LESS useful due to commodity price sensitivity
-- Dividend yield + buyback yield = total shareholder return
-- NAV based on reserve valuation (for E&P companies)
+估值框架：
+- EV/EBITDA 是主要指标（根据商品价格进行正常化）
+- FCF收益率相对于同行（考虑到商品风险溢价应较高）
+- P/E 参考价值较低，因受商品价格敏感性影响
+- 股息收益率+回购收益率 = 总股东回报
+- 基于储量估值的NAV（适用于勘探开发公司）
 
-MACRO SENSITIVITY:
-- Current oil/gas prices vs. historical and forward curves
-- OPEC+ supply decisions and geopolitical supply risk
-- Energy transition risk — long-term demand outlook
-- Regulatory / carbon policy exposure""",
+宏观敏感性：
+- 当前油/气价格与历史及远期曲线对比
+- OPEC+供应决策和地缘政治供应风险
+- 能源转型风险——长期需求前景
+- 监管/碳政策风险敞口""",
         key_metrics=["revenue_growth", "pe_ratio", "debt_to_equity", "dividend_yield"],
-        sentiment_context="Focus on oil/gas prices, OPEC+ decisions, geopolitical supply risks, energy transition policy, capital allocation decisions, and production guidance.",
+        sentiment_context="关注油气价格、OPEC+决策、地缘政治供应风险、能源转型政策、资本配置决策以及产量指引。",
     ),
 
     "renewables": SectorConfig(
         key="renewables",
-        label="Renewable Energy",
-        analysis_framework="""You are analyzing a RENEWABLE ENERGY company. Apply a project-pipeline framework:
+        label="可再生能源",
+        analysis_framework="""你正在分析一家可再生能源公司。请运用项目管线分析框架：
 
-PRIORITY METRICS:
-- Installed capacity (MW/GW) and growth trajectory
-- Revenue growth from new project completions
-- Power Purchase Agreement (PPA) pricing and duration
-- Levelized Cost of Energy (LCOE) competitiveness
-- Debt levels — renewable projects are capital-intensive
-- Government incentive exposure (ITC, PTC, IRA credits)
+优先指标：
+- 装机容量（MW/GW）及增长轨迹
+- 新项目投产带来的营收增长
+- 购电协议（PPA）定价和期限
+- 平准化能源成本（LCOE）竞争力
+- 负债水平——可再生能源项目属于资本密集型
+- 政府激励政策敞口（ITC、PTC、IRA税收抵免）
 
-VALUATION FRAMEWORK:
-- EV/EBITDA relative to contracted cash flow visibility
-- Project pipeline value and development stage
-- DCF based on long-term contracted revenue
-- Policy risk premium for subsidy-dependent companies""",
+估值框架：
+- EV/EBITDA 相对于合同现金流可见度
+- 项目管线价值和开发阶段
+- 基于长期合同收入的DCF
+- 依赖补贴的公司需考虑政策风险溢价""",
         key_metrics=["revenue_growth", "debt_to_equity", "market_cap"],
-        sentiment_context="Focus on government energy policy, tax credit extensions/expirations, utility-scale procurement, grid interconnection timelines, and technology cost curves.",
+        sentiment_context="关注政府能源政策、税收抵免延期/到期、公用事业规模采购、电网并网时间线以及技术成本曲线。",
     ),
 
     # ===== CONSUMER =====
 
     "ecommerce": SectorConfig(
         key="ecommerce",
-        label="E-Commerce / Internet Retail",
-        analysis_framework="""You are analyzing an E-COMMERCE / INTERNET RETAIL company. Apply a GMV-and-take-rate framework:
+        label="电子商务/网络零售",
+        analysis_framework="""你正在分析一家电子商务/网络零售公司。请运用GMV和费率分析框架：
 
-PRIORITY METRICS:
-- Gross Merchandise Value (GMV) or total revenue growth
-- Take rate / monetization rate trends
-- Gross margins — especially 1P vs. 3P marketplace mix
-- Advertising and services revenue as % of total (high-margin revenue streams)
-- Fulfillment cost trends and logistics efficiency
-- Active buyers / customers and purchase frequency
+优先指标：
+- 商品交易总额（GMV）或总营收增长
+- 费率/货币化率趋势
+- 毛利率——尤其是自营（1P）与第三方市场（3P）的比例构成
+- 广告和服务收入占总收入百分比（高利润率收入来源）
+- 履约成本趋势和物流效率
+- 活跃买家/客户数量和购买频率
 
-VALUATION FRAMEWORK:
-- EV/Revenue for high-growth phase, P/E for mature e-commerce
-- Segment-level profitability (separate retail from cloud/ads/services)
-- FCF generation capacity as growth investment moderates
-- Compare unit economics to physical retail peers""",
+估值框架：
+- 高增长阶段使用 EV/Revenue，成熟电商使用 P/E
+- 分部盈利能力（将零售与云计算/广告/服务分开）
+- 随着增长投资放缓，FCF产生能力
+- 与实体零售同行比较单位经济模型""",
         key_metrics=["revenue_growth", "pe_ratio", "forward_pe", "market_cap"],
-        sentiment_context="Focus on consumer spending trends, online penetration growth, competitive dynamics, logistics/fulfillment developments, and advertising market conditions.",
+        sentiment_context="关注消费支出趋势、线上渗透率增长、竞争格局、物流/履约动态以及广告市场状况。",
     ),
 
     "retail": SectorConfig(
         key="retail",
-        label="Retail",
-        analysis_framework="""You are analyzing a RETAIL company. Apply a same-store-sales framework:
+        label="零售业",
+        analysis_framework="""你正在分析一家零售公司。请运用同店销售分析框架：
 
-PRIORITY METRICS:
-- Comparable / same-store sales growth (the single most important retail metric)
-- Revenue growth: same-store vs. new store contribution
-- Gross margins and inventory management efficiency
-- Inventory turnover — rising inventory without revenue growth is a red flag
-- SG&A as % of revenue — operating efficiency
-- E-commerce penetration and omnichannel capabilities
+优先指标：
+- 可比/同店销售增长（零售业最重要的单一指标）
+- 营收增长：同店贡献与新店贡献
+- 毛利率和库存管理效率
+- 库存周转率——库存上升而营收未增长是危险信号
+- 销售管理费用占营收百分比——运营效率
+- 电商渗透率和全渠道能力
 
-VALUATION FRAMEWORK:
-- P/E relative to retail peers and growth rate
-- EV/EBITDA for comparison across capital structures
-- Dividend yield for mature retailers
-- Same-store sales trajectory drives multiple expansion/contraction""",
+估值框架：
+- P/E 相对于零售同行和增长率
+- EV/EBITDA 用于跨资本结构比较
+- 成熟零售商的股息收益率
+- 同店销售轨迹驱动估值倍数扩张/收缩""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "dividend_yield", "current_ratio"],
-        sentiment_context="Focus on consumer spending trends, foot traffic data, promotional activity, inventory levels, e-commerce competition, and seasonal patterns.",
+        sentiment_context="关注消费支出趋势、客流量数据、促销活动、库存水平、电商竞争以及季节性因素。",
     ),
 
     "consumer_staples": SectorConfig(
         key="consumer_staples",
-        label="Consumer Staples / Defensive",
-        analysis_framework="""You are analyzing a CONSUMER STAPLES / DEFENSIVE company. Apply a brand-strength-and-pricing framework:
+        label="必需消费品/防御性消费",
+        analysis_framework="""你正在分析一家必需消费品/防御性消费公司。请运用品牌实力和定价能力分析框架：
 
-PRIORITY METRICS:
-- Organic revenue growth (separate pricing from volume)
-- Gross margins — pricing power indicator, input cost sensitivity
-- Volume trends — are consumers trading down to private label?
-- Operating margins and cost efficiency improvements
-- Dividend yield and payout ratio — staples are dividend-paying stocks
-- FCF conversion — stable businesses should convert earnings to cash reliably
+优先指标：
+- 有机营收增长（区分价格贡献和销量贡献）
+- 毛利率——定价能力指标，对原材料成本敏感
+- 销量趋势——消费者是否在转向自有品牌？
+- 营业利润率和成本效率改善
+- 股息收益率和派息率——必需消费品是股息型股票
+- FCF转化率——稳定的业务应能可靠地将盈利转化为现金
 
-VALUATION FRAMEWORK:
-- P/E is the primary metric (these are stable, profitable companies)
-- Dividend yield as a floor valuation support
-- Premium P/E justified by recession-resistance and predictability
-- Compare to historical valuation range and sector average""",
+估值框架：
+- P/E 是主要指标（这些是稳定的盈利公司）
+- 股息收益率作为估值底部支撑
+- 抗衰退性和可预测性支撑溢价P/E
+- 与历史估值区间和行业平均水平比较""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "dividend_yield", "return_on_equity"],
-        sentiment_context="Focus on consumer spending patterns, input cost inflation, private-label competition, pricing action announcements, and recession indicators.",
+        sentiment_context="关注消费支出模式、原材料成本通胀、自有品牌竞争、提价公告以及衰退指标。",
     ),
 
     "auto": SectorConfig(
         key="auto",
-        label="Automotive",
-        analysis_framework="""You are analyzing an AUTOMOTIVE company. Apply a unit-economics framework:
+        label="汽车行业",
+        analysis_framework="""你正在分析一家汽车公司。请运用单位经济模型分析框架：
 
-PRIORITY METRICS:
-- Vehicle deliveries / unit sales and growth trajectory
-- Average Selling Price (ASP) trends — mix shift toward higher-margin vehicles?
-- Gross margins per vehicle (automotive gross margins are thin: 15-25%)
-- R&D spending — especially for EV and autonomous driving investment
-- CapEx intensity and factory utilization rates
-- Inventory levels (days of supply) — too high signals demand weakness
+优先指标：
+- 汽车交付量/销量及增长轨迹
+- 平均售价（ASP）趋势——产品组合是否向更高利润率车型转移？
+- 每辆车的毛利率（汽车毛利率较薄：15-25%）
+- R&D支出——尤其是电动汽车和自动驾驶投资
+- 资本支出强度和工厂产能利用率
+- 库存水平（供应天数）——过高则预示需求疲软
 
-VALUATION FRAMEWORK:
-- P/E for profitable automakers (use forward earnings, not trailing)
-- EV/Revenue for pre-profit or high-growth EV companies
-- Delivery growth rate vs. valuation premium
-- Compare gross margins to legacy and EV peers""",
+估值框架：
+- 盈利车企使用 P/E（使用前瞻盈利而非过去盈利）
+- 未盈利或高增长电动车公司使用 EV/Revenue
+- 交付增长率与估值溢价的对比
+- 与传统车企和电动车同行比较毛利率""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "debt_to_equity"],
-        sentiment_context="Focus on vehicle delivery numbers, EV adoption trends, battery technology developments, autonomous driving progress, tariff/trade impacts, and consumer financing conditions.",
+        sentiment_context="关注汽车交付数据、电动汽车普及趋势、电池技术发展、自动驾驶进展、关税/贸易影响以及消费金融条件。",
     ),
 
     "consumer_services": SectorConfig(
         key="consumer_services",
-        label="Consumer Services",
-        analysis_framework="""You are analyzing a CONSUMER SERVICES company. Apply a unit-economics framework:
+        label="消费服务",
+        analysis_framework="""你正在分析一家消费服务公司。请运用单位经济模型分析框架：
 
-PRIORITY METRICS:
-- Revenue growth driven by transactions, bookings, or active users
-- Gross margins and contribution margins per transaction
-- Customer acquisition cost trends and payback periods
-- Active users/customers and engagement metrics (repeat rate)
-- Seasonality patterns and geographic diversification
-- Operating leverage — are margins expanding with scale?
+优先指标：
+- 由交易量、预订量或活跃用户驱动的营收增长
+- 毛利率和每笔交易的边际贡献
+- 客户获取成本趋势和回收期
+- 活跃用户/客户数量和参与度指标（复购率）
+- 季节性规律和地域多元化
+- 经营杠杆——利润率是否随规模扩张而提高？
 
-VALUATION FRAMEWORK:
-- P/E or EV/EBITDA for profitable services companies
-- EV/Revenue for high-growth, pre-profit companies
-- Compare unit economics to peers in the category""",
+估值框架：
+- 盈利的服务公司使用 P/E 或 EV/EBITDA
+- 高增长、未盈利的公司使用 EV/Revenue
+- 与同类别同行比较单位经济模型""",
         key_metrics=["revenue_growth", "pe_ratio", "return_on_equity", "market_cap"],
-        sentiment_context="Focus on consumer spending trends, travel/leisure demand, competitive dynamics, and macroeconomic indicators affecting discretionary spending.",
+        sentiment_context="关注消费支出趋势、旅游/休闲需求、竞争格局以及影响可选消费的宏观经济指标。",
     ),
 
     "consumer_cyclical": SectorConfig(
         key="consumer_cyclical",
-        label="Consumer Cyclical",
-        analysis_framework="""You are analyzing a CONSUMER CYCLICAL company. Apply a cycle-and-demand framework:
+        label="可选消费",
+        analysis_framework="""你正在分析一家可选消费公司。请运用周期与需求分析框架：
 
-PRIORITY METRICS:
-- Revenue growth relative to economic cycle position
-- Same-store sales or comparable metrics where applicable
-- Gross margins and pricing power in different economic conditions
-- Inventory management efficiency
-- Balance sheet strength to weather downturns
-- Consumer confidence and spending trend sensitivity
+优先指标：
+- 营收增长相对于经济周期所处阶段
+- 同店销售或适用的可比指标
+- 不同经济环境下的毛利率和定价能力
+- 库存管理效率
+- 抵御经济低迷的资产负债表实力
+- 对消费者信心和支出趋势的敏感性
 
-VALUATION FRAMEWORK:
-- P/E normalized for cycle position
-- Be cautious of low P/E at cycle peaks (cyclical trap)
-- EV/EBITDA relative to peers at similar cycle points
-- Dividend sustainability through full economic cycles""",
+估值框架：
+- 根据周期位置正常化的 P/E
+- 警惕周期峰值时的低P/E（周期性陷阱）
+- EV/EBITDA 相对于同行在相似周期阶段的水平
+- 完整经济周期中的股息可持续性""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "debt_to_equity", "current_ratio"],
-        sentiment_context="Focus on consumer confidence, discretionary spending trends, economic cycle indicators, and competitive positioning.",
+        sentiment_context="关注消费者信心、可选消费支出趋势、经济周期指标以及竞争定位。",
     ),
 
     # ===== REAL ESTATE =====
 
     "real_estate": SectorConfig(
         key="real_estate",
-        label="Real Estate / REITs",
-        analysis_framework="""You are analyzing a REAL ESTATE / REIT company. Apply a NAV-and-FFO framework:
+        label="房地产/REITs",
+        analysis_framework="""你正在分析一家房地产/REIT公司。请运用NAV和FFO分析框架：
 
-PRIORITY METRICS:
-- Funds From Operations (FFO) per share and growth — the REIT equivalent of earnings
-- Adjusted FFO (AFFO) for recurring capex deductions
-- Occupancy rate and tenant retention
-- Same-property Net Operating Income (NOI) growth
-- Weighted Average Lease Expiry (WALE) — longer = more predictable
-- Debt-to-EBITDA and interest coverage — REITs use significant leverage
-- Dividend yield and AFFO payout ratio
+优先指标：
+- 每股运营资金（FFO）及增长——REIT的盈利等价指标
+- 调整后FFO（AFFO）扣除经常性资本支出
+- 出租率和租户留存率
+- 同物业净营业收入（NOI）增长
+- 加权平均租约到期期限（WALE）——越长越可预测
+- Debt-to-EBITDA 和利息覆盖率——REITs使用大量杠杆
+- 股息收益率和AFFO派息率
 
-VALUATION FRAMEWORK:
-- Price-to-FFO (the REIT P/E equivalent)
-- NAV discount/premium — is the stock above or below asset value?
-- Cap rate implied by current pricing vs. market cap rates
-- Dividend yield relative to REIT peers and interest rates
-- NOTE: Traditional P/E is MISLEADING for REITs due to depreciation
+估值框架：
+- P/FFO（REIT的P/E等价指标）
+- NAV折价/溢价——股价高于还是低于资产价值？
+- 当前定价隐含的资本化率与市场资本化率对比
+- 股息收益率相对于REIT同行和利率水平
+- 注意：传统P/E对REITs具有误导性，因折旧的影响
 
-RATE SENSITIVITY:
-- Higher interest rates increase borrowing costs and compress valuations
-- Rising rates also increase competition from fixed-income alternatives
-- Property type matters: industrial/data center REITs have secular tailwinds""",
+利率敏感性：
+- 更高的利率增加借贷成本并压缩估值
+- 利率上升也增加了来自固定收益替代品的竞争
+- 物业类型很重要：工业/数据中心REITs具有长期结构性顺风""",
         key_metrics=["pe_ratio", "dividend_yield", "debt_to_equity", "market_cap"],
-        sentiment_context="Focus on interest rate trajectory, property type demand trends, occupancy rates, construction pipeline, and cap rate movements.",
+        sentiment_context="关注利率走势、各物业类型需求趋势、出租率、在建工程管线以及资本化率变动。",
     ),
 
     # ===== UTILITIES =====
 
     "utilities": SectorConfig(
         key="utilities",
-        label="Utilities",
-        analysis_framework="""You are analyzing a UTILITY company. Apply a regulated-returns framework:
+        label="公用事业",
+        analysis_framework="""你正在分析一家公用事业公司。请运用受监管回报分析框架：
 
-PRIORITY METRICS:
-- Rate base growth — the primary driver of earnings growth for regulated utilities
-- Allowed Return on Equity (ROE) from regulators
-- Earned ROE vs. allowed ROE — execution quality indicator
-- Capital expenditure plan and rate case pipeline
-- Dividend yield and payout ratio — utilities are primarily income investments
-- Debt-to-equity — utilities use significant but manageable leverage
-- Regulatory jurisdiction quality — constructive vs. challenging regulators
+优先指标：
+- 费率基数增长——受监管公用事业盈利增长的主要驱动力
+- 监管机构允许的ROE
+- 实际ROE与允许ROE的对比——执行质量指标
+- 资本支出计划和费率审批管线
+- 股息收益率和派息率——公用事业主要是收益型投资
+- 负债权益比——公用事业使用较高但可控的杠杆
+- 监管辖区质量——友好型与挑战型监管机构
 
-VALUATION FRAMEWORK:
-- P/E relative to utility peers and allowed ROE
-- Dividend yield as primary valuation anchor
-- Rate base growth rate = approximate earnings growth rate
-- Premium P/E justified by constructive regulation and growth capex
+估值框架：
+- P/E 相对于公用事业同行和允许ROE
+- 股息收益率作为主要估值锚点
+- 费率基数增长率 ≈ 近似盈利增长率
+- 友好型监管和增长性资本支出支撑溢价P/E
 
-SPECIAL CONSIDERATIONS:
-- AI/datacenter power demand as a growth catalyst
-- Renewable energy transition capex opportunities
-- Wildfire / extreme weather liability (for certain geographies)""",
+特别考量：
+- AI/数据中心电力需求作为增长催化剂
+- 可再生能源转型带来的资本支出机会
+- 野火/极端天气责任风险（针对特定地区）""",
         key_metrics=["pe_ratio", "eps", "dividend_yield", "debt_to_equity"],
-        sentiment_context="Focus on rate case decisions, regulatory developments, weather events, AI datacenter power demand, renewable energy mandates, and interest rate sensitivity.",
+        sentiment_context="关注费率审批决定、监管动态、天气事件、AI数据中心电力需求、可再生能源强制要求以及利率敏感性。",
     ),
 
     # ===== INDUSTRIALS =====
 
     "industrials": SectorConfig(
         key="industrials",
-        label="Industrials",
-        analysis_framework="""You are analyzing an INDUSTRIAL company. Apply a backlog-and-cycle framework:
+        label="工业",
+        analysis_framework="""你正在分析一家工业公司。请运用积压订单与周期分析框架：
 
-PRIORITY METRICS:
-- Organic revenue growth (separate from acquisitions and FX)
-- Order backlog and book-to-bill ratio — leading indicators of future revenue
-- Gross and operating margins — indicator of pricing power and operational efficiency
-- Free Cash Flow conversion — industrials should convert earnings to cash reliably
-- CapEx intensity relative to depreciation — is the company investing for growth?
-- End-market diversification — reduces cyclical risk
+优先指标：
+- 有机营收增长（剔除并购和汇率影响）
+- 订单积压和订单出货比——未来营收的领先指标
+- 毛利率和营业利润率——定价能力和运营效率的指标
+- FCF转化率——工业公司应能可靠地将盈利转化为现金
+- 资本支出强度相对于折旧——公司是否在为增长进行投资？
+- 终端市场多元化——降低周期性风险
 
-VALUATION FRAMEWORK:
-- P/E and EV/EBITDA relative to industrial peers
-- Through-cycle earnings normalization (avoid valuing at peak/trough margins)
-- FCF yield as a quality check
-- M&A strategy and returns on acquired capital
+估值框架：
+- P/E 和 EV/EBITDA 相对于工业同行
+- 跨周期盈利正常化（避免在峰值/低谷利润率下估值）
+- FCF收益率作为质量验证
+- 并购策略和被收购资本的回报
 
-CYCLICAL AWARENESS:
-- Industrial stocks correlate with PMI and capex cycles
-- Infrastructure spending and government policy tailwinds
-- Supply chain normalization and input cost trends""",
+周期性意识：
+- 工业股与PMI和资本支出周期相关
+- 基础设施支出和政府政策顺风
+- 供应链正常化和原材料成本趋势""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "return_on_equity", "debt_to_equity"],
-        sentiment_context="Focus on PMI trends, infrastructure spending, supply chain dynamics, input costs, order/backlog trends, and government policy impacts.",
+        sentiment_context="关注PMI趋势、基础设施支出、供应链动态、原材料成本、订单/积压趋势以及政府政策影响。",
     ),
 
     # ===== COMMUNICATION / MEDIA =====
 
     "communication": SectorConfig(
         key="communication",
-        label="Communication / Media",
-        analysis_framework="""You are analyzing a COMMUNICATION / MEDIA company. Apply a user-engagement framework:
+        label="通信/媒体",
+        analysis_framework="""你正在分析一家通信/媒体公司。请运用用户参与度分析框架：
 
-PRIORITY METRICS:
-- User / subscriber metrics: DAU, MAU, subscribers, and growth trends
-- Average Revenue Per User (ARPU) — monetization effectiveness
-- Advertising revenue growth and pricing trends
-- Content spending and ROI (for media companies)
-- Engagement metrics: time spent, sessions, retention rates
-- Operating margins and path to profitability for newer platforms
+优先指标：
+- 用户/订阅者指标：DAU、MAU、订阅者数量及增长趋势
+- 每用户平均收入（ARPU）——货币化效果
+- 广告收入增长和定价趋势
+- 内容支出和投资回报率（针对媒体公司）
+- 参与度指标：使用时长、会话数、留存率
+- 新兴平台的营业利润率和盈利路径
 
-VALUATION FRAMEWORK:
-- EV/Revenue or EV/User for high-growth platforms
-- P/E for profitable, mature media companies
-- Advertising revenue per user vs. peers
-- Content asset amortization patterns""",
+估值框架：
+- 高增长平台使用 EV/Revenue 或 EV/用户数
+- 盈利的成熟媒体公司使用 P/E
+- 每用户广告收入与同行对比
+- 内容资产摊销模式""",
         key_metrics=["revenue_growth", "pe_ratio", "market_cap", "return_on_equity"],
-        sentiment_context="Focus on user growth trends, advertising market conditions, content spending, regulatory scrutiny, competitive platform dynamics, and AI content impacts.",
+        sentiment_context="关注用户增长趋势、广告市场状况、内容支出、监管审查、竞争性平台动态以及AI内容影响。",
     ),
 
     "telecom": SectorConfig(
         key="telecom",
-        label="Telecommunications",
-        analysis_framework="""You are analyzing a TELECOM company. Apply a subscriber-and-infrastructure framework:
+        label="电信",
+        analysis_framework="""你正在分析一家电信公司。请运用用户数和基础设施分析框架：
 
-PRIORITY METRICS:
-- Subscriber count and net additions (wireless and broadband)
-- ARPU trends — pricing power vs. competitive pressure
-- Churn rate — lower is better, indicates customer satisfaction
-- CapEx intensity (5G, fiber buildout) and network quality
-- EBITDA margins and FCF generation — telecom is capital-intensive
-- Debt levels — telecom companies carry significant leverage
-- Dividend yield and sustainability
+优先指标：
+- 用户数量和净新增数（无线和宽带）
+- ARPU趋势——定价能力与竞争压力
+- 流失率——越低越好，表明客户满意度
+- 资本支出强度（5G、光纤建设）和网络质量
+- EBITDA利润率和FCF产生能力——电信是资本密集型行业
+- 负债水平——电信公司承载大量杠杆
+- 股息收益率和可持续性
 
-VALUATION FRAMEWORK:
-- EV/EBITDA is the primary telecom valuation metric
-- Dividend yield as an income anchor
-- FCF yield after capex (determines dividend sustainability)
-- Spectrum asset value and network infrastructure replacement cost""",
+估值框架：
+- EV/EBITDA 是电信行业的主要估值指标
+- 股息收益率作为收益锚点
+- 资本支出后的FCF收益率（决定股息可持续性）
+- 频谱资产价值和网络基础设施重置成本""",
         key_metrics=["revenue_growth", "pe_ratio", "dividend_yield", "debt_to_equity"],
-        sentiment_context="Focus on subscriber trends, 5G deployment, broadband competition, spectrum auctions, pricing dynamics, and regulatory developments.",
+        sentiment_context="关注用户趋势、5G部署、宽带竞争、频谱拍卖、资费动态以及监管动态。",
     ),
 
     # ===== MATERIALS =====
 
     "materials": SectorConfig(
         key="materials",
-        label="Basic Materials",
-        analysis_framework="""You are analyzing a BASIC MATERIALS company. Apply a commodity-and-cost-curve framework:
+        label="基础材料",
+        analysis_framework="""你正在分析一家基础材料公司。请运用大宗商品和成本曲线分析框架：
 
-PRIORITY METRICS:
-- Revenue and volume trends relative to commodity prices
-- Cost position on the industry cost curve (low-cost producers are best)
-- Gross margins — highly sensitive to commodity price movements
-- Cash operating costs per unit (per ounce, per ton, etc.)
-- Reserve life and resource quality (for mining)
-- CapEx requirements for maintenance and growth
+优先指标：
+- 营收和销量趋势相对于大宗商品价格
+- 在行业成本曲线上的位置（低成本生产商最佳）
+- 毛利率——对大宗商品价格波动高度敏感
+- 单位现金运营成本（每盎司、每吨等）
+- 储量寿命和资源品质（针对矿业）
+- 维护性和增长性资本支出需求
 
-VALUATION FRAMEWORK:
-- P/E normalized for commodity cycle position
-- EV/EBITDA at various commodity price scenarios
-- Price-to-NAV based on reserve valuation (mining/metals)
-- FCF yield at current commodity prices
-- Dividend sustainability across price cycles""",
+估值框架：
+- 根据大宗商品周期位置正常化的 P/E
+- 不同大宗商品价格情景下的 EV/EBITDA
+- 基于储量估值的P/NAV（矿业/金属）
+- 当前大宗商品价格下的FCF收益率
+- 跨价格周期的股息可持续性""",
         key_metrics=["revenue_growth", "pe_ratio", "debt_to_equity", "dividend_yield"],
-        sentiment_context="Focus on commodity price movements, supply-demand dynamics, mine development, trade/tariff policies, and environmental regulatory developments.",
+        sentiment_context="关注大宗商品价格走势、供需动态、矿山开发、贸易/关税政策以及环境监管动态。",
     ),
 
     # ===== GENERAL FALLBACKS =====
 
     "technology_general": SectorConfig(
         key="technology_general",
-        label="Technology",
-        analysis_framework="""You are analyzing a TECHNOLOGY company. Apply a growth-and-moat framework:
+        label="科技",
+        analysis_framework="""你正在分析一家科技公司。请运用增长与护城河分析框架：
 
-PRIORITY METRICS:
-- Revenue growth rate and consistency
-- Gross margins (high margins suggest software/IP value; lower suggests hardware/services)
-- R&D spending as % of revenue — investment in future competitiveness
-- Operating leverage — are margins expanding with revenue growth?
-- Free Cash Flow margins and conversion quality
-- Market position and competitive dynamics
+优先指标：
+- 营收增长率及一致性
+- 毛利率（高利润率表明软件/IP价值；较低则表明硬件/服务）
+- R&D支出占营收百分比——对未来竞争力的投资
+- 经营杠杆——利润率是否随营收增长而扩张？
+- FCF利润率和转化质量
+- 市场地位和竞争格局
 
-VALUATION FRAMEWORK:
-- For high-growth (>20%): EV/Revenue is primary, P/E secondary
-- For mature growth (<20%): P/E and PEG ratio are primary
-- FCF yield for cash-generative tech
-- Compare multiple to growth rate (rule of thumb: P/E ≈ growth rate for fair value)""",
+估值框架：
+- 高增长（>20%）：EV/Revenue 为主，P/E 为辅
+- 成熟增长（<20%）：P/E 和 PEG比率为主
+- 现金产生型科技公司的FCF收益率
+- 将估值倍数与增长率比较（经验法则：P/E ≈ 增长率为合理估值）""",
         key_metrics=["revenue_growth", "pe_ratio", "forward_pe", "return_on_equity", "market_cap"],
-        sentiment_context="Focus on technology adoption trends, competitive dynamics, regulatory developments, and macroeconomic impacts on tech spending.",
+        sentiment_context="关注技术采用趋势、竞争格局、监管动态以及宏观经济对科技支出的影响。",
     ),
 
     "healthcare_general": SectorConfig(
         key="healthcare_general",
-        label="Healthcare",
-        analysis_framework="""You are analyzing a HEALTHCARE company. Apply a diversified-healthcare framework:
+        label="医疗保健",
+        analysis_framework="""你正在分析一家医疗保健公司。请运用多元化医疗保健分析框架：
 
-PRIORITY METRICS:
-- Revenue growth by segment
-- Gross margins (vary widely: 40% for devices to 80% for drugs)
-- R&D spending and pipeline productivity
-- Regulatory risk exposure
-- Patent protection and exclusivity timelines
-- Dividend yield for mature healthcare companies
+优先指标：
+- 按业务板块划分的营收增长
+- 毛利率（差异很大：器械约40%，药品可达80%）
+- R&D支出和管线生产力
+- 监管风险敞口
+- 专利保护和独占期时间线
+- 成熟医疗保健公司的股息收益率
 
-VALUATION FRAMEWORK:
-- P/E relative to healthcare sector peers
-- Pipeline value for R&D-intensive companies
-- Dividend yield for mature, diversified healthcare""",
+估值框架：
+- P/E 相对于医疗保健行业同行
+- 研发密集型公司的管线价值
+- 成熟、多元化医疗保健公司的股息收益率""",
         key_metrics=["revenue_growth", "pe_ratio", "eps", "return_on_equity", "dividend_yield"],
-        sentiment_context="Focus on regulatory developments, drug pricing policy, clinical trial results, and healthcare spending trends.",
+        sentiment_context="关注监管动态、药品定价政策、临床试验结果以及医疗保健支出趋势。",
     ),
 
     "financials_general": SectorConfig(
         key="financials_general",
-        label="Financial Services",
-        analysis_framework="""You are analyzing a FINANCIAL SERVICES company. Apply a returns-and-risk framework:
+        label="金融服务",
+        analysis_framework="""你正在分析一家金融服务公司。请运用回报与风险分析框架：
 
-PRIORITY METRICS:
-- Return on Equity (ROE) or Return on Tangible Common Equity (ROTCE) — the key metric
-- Revenue growth and composition (fee vs. spread income)
-- Efficiency ratio or cost-to-income ratio
-- Capital adequacy and regulatory capital ratios
-- Credit quality metrics if applicable (charge-offs, NPLs)
-- Dividend yield and total capital return
+优先指标：
+- ROE 或 ROTCE——关键指标
+- 营收增长和构成（手续费收入与利差收入）
+- 效率比率或成本收入比
+- 资本充足率和监管资本比率
+- 适用时的信贷质量指标（冲销率、不良贷款率）
+- 股息收益率和总资本回报
 
-VALUATION FRAMEWORK:
-- Price-to-Book Value or P/TBV for capital-heavy financials
-- P/E for fee-based financials (asset managers, exchanges)
-- Dividend yield as income component
-- ROE above cost of equity justifies premium to book value""",
+估值框架：
+- 资本密集型金融机构使用市净率（P/B）或P/TBV
+- 手续费驱动型金融机构（资产管理、交易所）使用 P/E
+- 股息收益率作为收益组成部分
+- ROE 高于权益成本则支撑溢价于账面价值""",
         key_metrics=["pe_ratio", "return_on_equity", "dividend_yield", "debt_to_equity"],
-        sentiment_context="Focus on interest rate environment, credit conditions, regulatory changes, capital markets activity, and macroeconomic indicators.",
+        sentiment_context="关注利率环境、信贷状况、监管变化、资本市场活动以及宏观经济指标。",
     ),
 
     # ===== DEFAULT (catch-all) =====
 
     "default": SectorConfig(
         key="default",
-        label="General",
-        analysis_framework="""Apply a general fundamental analysis framework:
+        label="通用",
+        analysis_framework="""请运用通用基本面分析框架：
 
-PRIORITY METRICS:
-- Revenue growth trends and consistency
-- Profitability: gross margins, operating margins, net margins, ROE
-- Balance sheet strength: debt levels, current ratio, interest coverage
-- Valuation: P/E ratio relative to growth rate (PEG ratio)
-- Cash flow: FCF generation and quality of earnings
-- Competitive position and moat durability
+优先指标：
+- 营收增长趋势及一致性
+- 盈利能力：毛利率、营业利润率、净利率、ROE
+- 资产负债表实力：负债水平、流动比率、利息覆盖率
+- 估值：P/E 相对于增长率（PEG比率）
+- 现金流：FCF产生能力和盈利质量
+- 竞争地位和护城河持久性
 
-VALUATION FRAMEWORK:
-- P/E relative to sector average and historical range
-- PEG ratio for growth-adjusted valuation
-- EV/EBITDA for cross-capital-structure comparison
-- Dividend yield and payout sustainability (if applicable)
-- FCF yield as a quality metric""",
+估值框架：
+- P/E 相对于行业平均水平和历史区间
+- PEG比率用于增长调整后的估值
+- EV/EBITDA 用于跨资本结构比较
+- 股息收益率和派息可持续性（如适用）
+- FCF收益率作为质量指标""",
         key_metrics=["revenue_growth", "pe_ratio", "debt_to_equity", "return_on_equity", "dividend_yield"],
-        sentiment_context="Focus on general market sentiment, competitive dynamics, and macroeconomic factors affecting this company.",
+        sentiment_context="关注市场整体情绪、竞争格局以及影响该公司的宏观经济因素。",
     ),
 }
 
