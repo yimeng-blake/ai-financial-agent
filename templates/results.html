@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis — {{ tickers }}{% endblock %}
+
+{% block content %}
+<!-- Hidden config for JavaScript -->
+<div id="sse-config" data-tickers="{{ tickers }}" data-cash="{{ cash }}" data-sid="{{ sid }}" style="display:none;"></div>
+
+<!-- Header -->
+<div class="results-header">
+    <div>
+        <h1>Analysis Report</h1>
+        <p class="subtitle">
+            {% for t in ticker_list %}
+            <span class="ticker-badge">{{ t }}</span>
+            {% endfor %}
+            &nbsp;&middot;&nbsp; Portfolio: <strong>${{ "{:,.0f}".format(cash) }}</strong>
+        </p>
+    </div>
+    <a href="/" class="btn-secondary">New Analysis</a>
+</div>
+
+<!-- Pipeline Progress -->
+<div class="progress-section">
+    <div class="progress-pipeline-track">
+        <div class="progress-stage" id="stage-1" data-label="Market Data">
+            <div class="stage-circle">1</div>
+            <span class="stage-label">Market Data</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-stage" id="stage-2" data-label="Fundamentals">
+            <div class="stage-circle">2</div>
+            <span class="stage-label">Fundamentals</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-stage" id="stage-3" data-label="Technicals">
+            <div class="stage-circle">3</div>
+            <span class="stage-label">Technicals</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-stage" id="stage-4" data-label="Sentiment">
+            <div class="stage-circle">4</div>
+            <span class="stage-label">Sentiment</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-stage" id="stage-5" data-label="Risk Manager">
+            <div class="stage-circle">5</div>
+            <span class="stage-label">Risk</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-stage" id="stage-6" data-label="Portfolio Manager">
+            <div class="stage-circle">6</div>
+            <span class="stage-label">Portfolio</span>
+        </div>
+    </div>
+    <p class="progress-status" id="progress-status">Connecting...</p>
+</div>
+
+<!-- Error container -->
+<div id="error-container" class="error-banner hidden"></div>
+
+<!-- Agent Signals -->
+<section id="signals-section" class="results-section hidden">
+    <h2>Agent Trading Signals</h2>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Agent</th>
+                    <th>Signal</th>
+                    <th>Confidence</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody id="signals-body"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Technical Charts -->
+<section id="charts-section" class="results-section hidden">
+    <h2>Price Charts &amp; Technical Indicators</h2>
+    <div id="charts-grid" class="charts-grid"></div>
+</section>
+
+<!-- Risk Assessments -->
+<section id="risk-section" class="results-section hidden">
+    <h2>Risk Assessments</h2>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Risk Score</th>
+                    <th>Max Position</th>
+                    <th>Risk Factors</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody id="risk-body"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Trade Decisions -->
+<section id="decisions-section" class="results-section hidden">
+    <h2>Portfolio Decisions</h2>
+    <div class="decisions-cards" id="decisions-cards"></div>
+</section>
+
+<!-- Complete banner -->
+<div id="complete-banner" class="complete-banner hidden">
+    <span class="complete-icon">&#10003;</span>
+    Analysis Complete
+</div>
+
+<!-- Chat Panel (revealed after analysis completes) -->
+<section id="chat-section" class="results-section hidden">
+    <h2>Ask About This Analysis</h2>
+    <div id="chat-messages" class="chat-messages">
+        <div class="chat-message assistant-message fade-in">
+            <div class="chat-message-content">
+                Analysis complete. Ask me anything about the results &mdash;
+                for example, &ldquo;Why is NVDA rated bearish?&rdquo; or
+                &ldquo;Compare the risk profiles.&rdquo;
+            </div>
+        </div>
+    </div>
+    <form id="chat-form" class="chat-input-form">
+        <input
+            type="text"
+            id="chat-input"
+            class="chat-input"
+            placeholder="Ask about the analysis..."
+            autocomplete="off"
+            required
+        >
+        <button type="submit" id="chat-send-btn" class="btn-primary chat-send-btn">
+            Send
+        </button>
+    </form>
+</section>
+{% endblock %}

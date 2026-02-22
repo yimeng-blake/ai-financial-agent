@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}AI Financial Agent{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Multi-Agent Investment Analysis</h1>
+    <p class="subtitle">
+        Powered by Claude &mdash; five AI agents analyze fundamentals, technicals,
+        sentiment, risk, and portfolio allocation in real time.
+    </p>
+
+    <div class="pipeline-preview">
+        <div class="pipeline-step">
+            <div class="step-icon">&#128200;</div>
+            <span>Market Data</span>
+        </div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step">
+            <div class="step-icon">&#128202;</div>
+            <span>3 Analysts</span>
+        </div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step">
+            <div class="step-icon">&#9888;</div>
+            <span>Risk</span>
+        </div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step">
+            <div class="step-icon">&#128176;</div>
+            <span>Decisions</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-card">
+    {% if error %}
+    <div class="error-banner">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/analyze" enctype="multipart/form-data" id="analysis-form">
+        <div class="form-group">
+            <label for="tickers">Stock Tickers</label>
+            <input
+                type="text"
+                id="tickers"
+                name="tickers"
+                placeholder="AAPL, MSFT, NVDA"
+                required
+                autocomplete="off"
+            >
+            <span class="form-hint">Comma-separated symbols (e.g. AAPL, TSLA, AMZN)</span>
+        </div>
+
+        <div class="form-group">
+            <label for="cash">Portfolio Cash ($)</label>
+            <input
+                type="number"
+                id="cash"
+                name="cash"
+                value="100000"
+                min="1000"
+                step="1000"
+                required
+            >
+        </div>
+
+        <div class="form-group" id="research-section">
+            <label>Research Documents <span class="optional-label">(optional)</span></label>
+            <span class="form-hint">
+                Upload sell-side / buy-side research PDFs to enrich fundamental analysis.
+                PDF only, max 20 MB each, up to 3 per ticker.
+            </span>
+            <div id="doc-list" class="doc-list"></div>
+            <button type="button" id="add-doc-btn" class="btn-add-doc" disabled>
+                + Add Research Document
+            </button>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Run Analysis &rarr;
+        </button>
+    </form>
+</div>
+{% endblock %}
