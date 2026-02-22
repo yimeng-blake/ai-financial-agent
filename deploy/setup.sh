@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 # ============================================================================
-# AI Financial Agent — EC2 Deployment Script
+# AI Financial Agent — EC2 Deployment Script (HTTPS via Caddy)
 #
 # Usage:
 #   1. Launch an EC2 instance (Amazon Linux 2023 or Ubuntu 22.04, t3.small+)
-#   2. Open security group: inbound TCP 80 (HTTP) and 22 (SSH)
+#   2. Open security group: inbound TCP 80, 443, and 22
 #   3. SSH into the instance
 #   4. Create a .env file with your API keys:
 #        echo 'ANTHROPIC_API_KEY=sk-ant-...' > ~/.env
 #        echo 'X_BEARER_TOKEN=...' >> ~/.env   # optional
 #   5. Run this script:
-#        curl -sSL https://raw.githubusercontent.com/yimeng-blake/ai-financial-agent/main/deploy/setup.sh | bash
-#      OR copy it to the instance and run:
-#        chmod +x setup.sh && ./setup.sh
+#        cd ~/ai-financial-agent && bash deploy/setup.sh
 #
 # The script is idempotent — safe to run multiple times.
 # ============================================================================
@@ -23,20 +21,17 @@ APP_NAME="ai-financial-agent"
 REPO_URL="${REPO_URL:-https://github.com/yimeng-blake/ai-financial-agent.git}"
 BRANCH="${BRANCH:-main}"
 ENV_FILE="${ENV_FILE:-$HOME/.env}"
-HOST_PORT="${HOST_PORT:-80}"
-CONTAINER_PORT="8000"
 
 echo "=========================================="
 echo "  AI Financial Agent — EC2 Deployment"
 echo "=========================================="
 
 # ------------------------------------------------------------------
-# 1. Install Docker (if not already installed)
+# 1. Install Docker & Docker Compose (if not already installed)
 # ------------------------------------------------------------------
 if ! command -v docker &>/dev/null; then
     echo "[1/5] Installing Docker..."
 
-    # Detect OS
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         OS_ID="$ID"
@@ -46,7 +41,6 @@ if ! command -v docker &>/dev/null; then
 
     case "$OS_ID" in
         amzn)
-            # Amazon Linux 2023
             sudo dnf update -y
             sudo dnf install -y docker git
             sudo systemctl start docker
@@ -55,7 +49,7 @@ if ! command -v docker &>/dev/null; then
             ;;
         ubuntu|debian)
             sudo apt-get update -y
-            sudo apt-get install -y docker.io git
+            sudo apt-get install -y docker.io docker-compose git
             sudo systemctl start docker
             sudo systemctl enable docker
             sudo usermod -aG docker "$USER"
@@ -65,11 +59,20 @@ if ! command -v docker &>/dev/null; then
             exit 1
             ;;
     esac
-
-    echo "Docker installed. You may need to log out and back in for group changes."
 else
     echo "[1/5] Docker already installed."
 fi
+
+# Install docker-compose plugin if not available
+if ! sudo docker compose version &>/dev/null; then
+    echo "Installing Docker Compose plugin..."
+    sudo mkdir -p /usr/local/lib/docker/cli-plugins
+    COMPOSE_URL="https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)"
+    sudo curl -SL "$COMPOSE_URL" -o /usr/local/lib/docker/cli-plugins/docker-compose
+    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+fi
+
+echo "Docker Compose: $(sudo docker compose version)"
 
 # ------------------------------------------------------------------
 # 2. Clone or update the repository
@@ -88,7 +91,7 @@ else
 fi
 
 # ------------------------------------------------------------------
-# 3. Check for .env file
+# 3. Check for .env file — copy into project dir for docker-compose
 # ------------------------------------------------------------------
 echo "[3/5] Checking environment file..."
 if [ ! -f "$ENV_FILE" ]; then
@@ -102,53 +105,48 @@ if [ ! -f "$ENV_FILE" ]; then
     exit 1
 fi
 
-# Verify ANTHROPIC_API_KEY is set
 if ! grep -q "ANTHROPIC_API_KEY=." "$ENV_FILE"; then
     echo "WARNING: ANTHROPIC_API_KEY appears empty in $ENV_FILE"
 fi
 
-echo "Environment file found at $ENV_FILE"
+# docker-compose reads .env from the project directory
+cp "$ENV_FILE" "$DEPLOY_DIR/.env"
+echo "Environment file ready."
 
 # ------------------------------------------------------------------
-# 4. Build Docker image
+# 4. Build with docker-compose
 # ------------------------------------------------------------------
-echo "[4/5] Building Docker image..."
-sudo docker build -t "$APP_NAME" "$DEPLOY_DIR"
+echo "[4/5] Building Docker images..."
+sudo docker compose build
 
 # ------------------------------------------------------------------
-# 5. Run (or restart) the container
+# 5. Start (or restart) services
 # ------------------------------------------------------------------
-echo "[5/5] Starting container..."
-
-# Stop existing container if running
-if sudo docker ps -q -f "name=$APP_NAME" | grep -q .; then
-    echo "Stopping existing container..."
-    sudo docker stop "$APP_NAME"
-    sudo docker rm "$APP_NAME"
-elif sudo docker ps -aq -f "name=$APP_NAME" | grep -q .; then
-    sudo docker rm "$APP_NAME"
-fi
-
-sudo docker run -d \
-    --name "$APP_NAME" \
-    --restart unless-stopped \
-    --env-file "$ENV_FILE" \
-    -p "$HOST_PORT:$CONTAINER_PORT" \
-    "$APP_NAME"
+echo "[5/5] Starting services..."
+sudo docker compose down 2>/dev/null || true
+sudo docker compose up -d
 
 # ------------------------------------------------------------------
 # Done
 # ------------------------------------------------------------------
+PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo '<your-ec2-public-ip>')
+
 echo ""
 echo "=========================================="
 echo "  Deployment complete!"
 echo "=========================================="
 echo ""
-echo "  App running at: http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo '<your-ec2-public-ip>'):$HOST_PORT"
+echo "  App running at:"
+echo "    https://basicmarket.net"
+echo "    http://$PUBLIC_IP (direct IP, no HTTPS)"
+echo ""
+echo "  Caddy will auto-provision an SSL certificate"
+echo "  from Let's Encrypt on first request (takes ~30s)."
 echo ""
 echo "  Useful commands:"
-echo "    docker logs -f $APP_NAME          # View logs"
-echo "    docker restart $APP_NAME          # Restart"
-echo "    docker stop $APP_NAME             # Stop"
+echo "    sudo docker compose logs -f          # View all logs"
+echo "    sudo docker compose logs -f app      # App logs only"
+echo "    sudo docker compose logs -f caddy    # Caddy/SSL logs"
+echo "    sudo docker compose restart          # Restart all"
 echo "    cd ~/$APP_NAME && bash deploy/setup.sh  # Redeploy"
 echo ""
