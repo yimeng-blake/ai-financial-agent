@@ -10,7 +10,7 @@
 #        echo 'ANTHROPIC_API_KEY=sk-ant-...' > ~/.env
 #        echo 'X_BEARER_TOKEN=...' >> ~/.env   # optional
 #   5. Run this script:
-#        curl -sSL https://raw.githubusercontent.com/<YOUR_USER>/ai-financial-agent/main/deploy/setup.sh | bash
+#        curl -sSL https://raw.githubusercontent.com/yimeng-blake/ai-financial-agent/main/deploy/setup.sh | bash
 #      OR copy it to the instance and run:
 #        chmod +x setup.sh && ./setup.sh
 #
@@ -20,7 +20,7 @@
 set -euo pipefail
 
 APP_NAME="ai-financial-agent"
-REPO_URL="${REPO_URL:-https://github.com/OWNER/ai-financial-agent.git}"  # Update this
+REPO_URL="${REPO_URL:-https://github.com/yimeng-blake/ai-financial-agent.git}"
 BRANCH="${BRANCH:-main}"
 ENV_FILE="${ENV_FILE:-$HOME/.env}"
 HOST_PORT="${HOST_PORT:-80}"
