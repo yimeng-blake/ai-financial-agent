@@ -82,6 +82,9 @@ def fundamentals_agent(state: AgentState) -> AgentState:
             ))
             continue
 
+        # Helper alias for cleaner template
+        g = fundamentals.get
+
         prompt = f"""你是一位专注于{sector_config.label}公司的基本面分析专家。
 
 === 行业专属分析框架：{sector_config.label} ===
@@ -91,23 +94,80 @@ def fundamentals_agent(state: AgentState) -> AgentState:
 
 请分析以下 {ticker}（{company_name}）的财务数据：
 
-数据来源：{fundamentals.get('data_source', '未知')}
+数据来源：{g('data_source', '未知')}
 数据质量：{data_quality}
 板块：{sector}
 行业：{industry}
 
-基本面数据：
-- 营收：${fmt(fundamentals.get('revenue'), ',.0f')}
-- 净利润：${fmt(fundamentals.get('net_income'), ',.0f')}
-- EPS（滚动）：${fundamentals.get('eps', 'N/A')}
-- P/E（滚动）：{fundamentals.get('pe_ratio', 'N/A')}
-- Forward P/E：{fundamentals.get('forward_pe', 'N/A')}
-- 营收增长率（同比）：{fmt(fundamentals.get('revenue_growth'), '.1%')}
-- Debt-to-Equity：{fundamentals.get('debt_to_equity', 'N/A')}
-- ROE：{fmt(fundamentals.get('return_on_equity'), '.1%')}
-- 流动比率：{fundamentals.get('current_ratio', 'N/A')}
-- 总市值：${fmt(fundamentals.get('market_cap'), ',.0f')}
-- 股息率：{fmt(fundamentals.get('dividend_yield'), '.2%')}
+=== 核心财务数据 ===
+- 营收：${fmt(g('revenue'), ',.0f')}
+- 营收增长率（同比）：{fmt(g('revenue_growth'), '.1%')}
+- 净利润：${fmt(g('net_income'), ',.0f')}
+- EPS（滚动）：{g('eps', 'N/A')}
+
+=== 盈利能力 ===
+- 毛利率：{fmt(g('gross_margin'), '.1%')}
+- 营业利润率：{fmt(g('operating_margin'), '.1%')}
+- EBITDA利润率：{fmt(g('ebitda_margin'), '.1%')}
+- 净利率：{fmt(g('net_margin'), '.1%')}
+- FCF利润率：{fmt(g('fcf_margin'), '.1%')}
+- ROE：{fmt(g('return_on_equity'), '.1%')}
+- ROA：{fmt(g('return_on_assets'), '.1%')}
+
+=== 现金流 ===
+- 自由现金流（FCF）：${fmt(g('free_cashflow'), ',.0f')}
+- 经营性现金流：${fmt(g('operating_cashflow'), ',.0f')}
+- 资本支出：${fmt(g('capital_expenditure'), ',.0f')}
+- FCF转化率（FCF/净利润）：{fmt(g('fcf_conversion'), '.1%')}
+- FCF收益率（FCF/市值）：{fmt(g('fcf_yield'), '.2%')}
+
+=== 利润表明细 ===
+- 毛利润：${fmt(g('gross_profit'), ',.0f')}
+- 营业利润：${fmt(g('operating_income'), ',.0f')}
+- EBITDA：${fmt(g('ebitda'), ',.0f')}
+- 营业成本：${fmt(g('cost_of_revenue'), ',.0f')}
+- 研发费用：${fmt(g('research_development'), ',.0f')}
+- 销售管理费用：${fmt(g('selling_general_admin'), ',.0f')}
+
+=== 资产负债表 ===
+- 总资产：${fmt(g('total_assets'), ',.0f')}
+- 总权益：${fmt(g('total_equity'), ',.0f')}
+- 总负债：${fmt(g('total_debt'), ',.0f')}
+- 现金及等价物：${fmt(g('cash_and_equivalents'), ',.0f')}
+- 短期投资：${fmt(g('short_term_investments'), ',.0f')}
+- 净现金/净负债：${fmt(g('net_cash'), ',.0f')}
+- 库存：${fmt(g('inventory'), ',.0f')}
+- 流动比率：{g('current_ratio', 'N/A')}
+- 长期负债：${fmt(g('long_term_debt'), ',.0f')}
+
+=== 估值倍数 ===
+- P/E（滚动）：{g('pe_ratio', 'N/A')}
+- Forward P/E：{g('forward_pe', 'N/A')}
+- EV/Revenue：{g('ev_to_revenue', 'N/A')}
+- EV/EBITDA：{g('ev_to_ebitda', 'N/A')}
+- P/B（市净率）：{g('price_to_book', 'N/A')}
+- PEG比率：{g('peg_ratio', 'N/A')}
+- 企业价值：${fmt(g('enterprise_value'), ',.0f')}
+- Debt-to-Equity：{g('debt_to_equity', 'N/A')}
+- Debt-to-EBITDA：{g('debt_to_ebitda', 'N/A')}
+
+=== 效率指标 ===
+- 研发占营收比：{fmt(g('rd_pct_revenue'), '.1%')}
+- 销售管理费占营收比：{fmt(g('sga_pct_revenue'), '.1%')}
+- 库存周转率：{fmt(g('inventory_turnover'), '.1f')}
+- Rule of 40：{g('rule_of_40', 'N/A')}
+
+=== 每股指标 ===
+- 每股账面价值：${g('book_value_per_share', 'N/A')}
+- 每股FCF：${fmt(g('fcf_per_share'), '.2f')}
+- 每股有形账面价值：${fmt(g('tangible_bv_per_share'), '.2f')}
+
+=== 市场数据 ===
+- 总市值：${fmt(g('market_cap'), ',.0f')}
+- 股息率：{fmt(g('dividend_yield'), '.2%')}
+- Beta：{g('beta', 'N/A')}
+- 做空比率：{g('short_ratio', 'N/A')}
+- 利息覆盖率：{g('interest_coverage', 'N/A')}
 
 当前股价：${current_price if current_price else 'N/A'}
 {_format_research_section(research_docs.get(ticker, []))}
