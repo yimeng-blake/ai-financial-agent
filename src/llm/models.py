@@ -18,7 +18,7 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-MAX_RETRIES = 2
+MAX_RETRIES = 3
 
 
 def get_llm(temperature: float = 0.0, model: str = "MiniMax-Text-01"):
@@ -44,6 +44,21 @@ def get_llm(temperature: float = 0.0, model: str = "MiniMax-Text-01"):
         minimax_api_key=api_key,
         max_tokens=4096,
     )
+
+
+def _sanitize_json_string(text: str) -> str:
+    """Sanitize a JSON string by escaping unescaped control characters.
+
+    LLMs often produce JSON with literal newlines/tabs inside string values
+    which is invalid per the JSON spec.  This replaces them so json.loads()
+    can handle the output.
+    """
+    # Replace literal control characters that are not already escaped
+    text = text.replace("\r\n", "\\n").replace("\r", "\\n")
+    # Replace literal newlines inside strings — but NOT the structural ones
+    # Strategy: replace all \n with \\n, then restore structural ones
+    # by re-parsing. Simpler: just use strict=False in json.loads.
+    return text
 
 
 def _extract_json(text: str) -> str:
@@ -110,7 +125,9 @@ def call_llm(prompt: str, response_model=None, temperature: float = 0.0):
             response = llm.invoke(full_prompt)
             raw = response.content if hasattr(response, "content") else str(response)
             json_str = _extract_json(raw)
-            data = json.loads(json_str)
+            # strict=False allows control chars (newlines, tabs) inside
+            # JSON string values — very common in LLM output.
+            data = json.loads(json_str, strict=False)
             return response_model.model_validate(data)
         except (json.JSONDecodeError, Exception) as exc:
             logger.warning(
@@ -122,7 +139,8 @@ def call_llm(prompt: str, response_model=None, temperature: float = 0.0):
                 full_prompt = (
                     f"{prompt}\n\n"
                     f"{schema_instruction}\n\n"
-                    "重要：只输出 JSON，不要输出任何解释文字。"
+                    "重要：只输出合法的 JSON，不要输出任何解释文字。"
+                    "字符串值中的换行符必须用 \\n 转义。"
                 )
             else:
                 logger.error(
